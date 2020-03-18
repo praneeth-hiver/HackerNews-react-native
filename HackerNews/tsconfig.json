@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "module": "commonjs",
+    "outDir": "dist/",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "declaration": true,
+    "jsx": "react",
+    "types": [],
+    "baseUrl": "."
+  },
+  "include": ["src/"],
+  "exclude": [
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js",
+    "node_modules"
+  ]
+}

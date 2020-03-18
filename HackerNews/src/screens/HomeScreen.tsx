@@ -1,51 +1,71 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text,FlatList, SafeAreaView} from 'react-native';
-import SearchBar from '../components/SearchBar';
-import useNews from '../hooks/useNews';
-import NewsComponent from '../components/NewsComponent';
-
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, FlatList, SafeAreaView, Text } from "react-native";
+import SearchBar from "../components/SearchBar";
+import useNews from "../hooks/useNews";
+import NewsComponent from "../components/NewsComponent";
+// import LottieView from "lottie-react-native";
 
 const HomeScreen = () => {
-  const [term, setTerm] = useState('');
-  const [results, getResults] = useNews([]);
+  const [term, setTerm] = useState();
+  const [refr, setRefresh] = useState(false);
+  const [results, getResults, getInitialResults] = useNews();
 
-  // useEffect(() => {
-  //   getResults('Voila!');
-  //   console.log("effect")
-  // }, []);
+  useEffect(() => {
+    getInitialResults();
+  }, []);
 
-    return (
-      <>
-        <SafeAreaView>
-            <View style = {styles.bodyBackground}>
-              <SearchBar 
-                kind = "Search"
-                term = {term} 
-                onTermChangeGetNews = {(newText) => {
-                  setTerm(newText);
-                  getResults(term);
-                }}
-                // getNews = {() => {getResults(term)}}
-              />
-            </View>
-            {/* <Text>{results.length}</Text> */}
-            <FlatList
-              virticle
-              data = {results}
-              keyExtractor = {(results) => results.objectId}
-              renderItem = {({item}) => {
-              return <NewsComponent item = {item}/>
-              }}
-            />
-        </SafeAreaView>    
-      </>
-    );
+  return (
+    <View style={{ ...styles.home, backgroundColor: "white" }}>
+      <SafeAreaView>
+        {/* <Text style={styles.search}>Search</Text> */}
+        <View>
+          <SearchBar
+            kind="Search"
+            term={term}
+            onTermChangeGetNews={newText => {
+              setTerm(newText);
+              getResults(term);
+            }}
+          />
+        </View>
+        {/* {results ? null : (
+          <LottieView
+            style={styles.lotte}
+            source={require("../assets/content_loader.json")}
+            autoPlay
+            loop
+          />
+        )} */}
+        <FlatList
+          data={results}
+          keyExtractor={item => item.objectID}
+          renderItem={({ item }) => {
+            return <NewsComponent item={item} key={item.objectID} />;
+          }}
+          refreshing={refr}
+          onRefresh={() => {
+            setRefresh(true);
+            getResults(term).then(setRefresh(false));
+          }}
+        />
+      </SafeAreaView>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-    bodyBackground: {
-      backgroundColor: "#F6F6EF"
-    }
+  home: {
+    flex: 1
+  },
+  search: {
+    fontSize: 30,
+    padding: 15
+    // fontFamily: ''
+  },
+  lotte: {
+    position: "relative",
+    top: 60
+  }
 });
 
 export default HomeScreen;
