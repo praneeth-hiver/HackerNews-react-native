@@ -35,6 +35,10 @@ target 'HackerNews' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+  
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
 
   target 'HackerNewsTests' do
     inherit! :search_paths
