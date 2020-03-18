@@ -10,8 +10,6 @@ import {
   Share,
   Animated
 } from "react-native";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
 const NewsComponent = ({ item }) => {
@@ -79,34 +77,46 @@ const NewsComponent = ({ item }) => {
 
   const renderSave = () => {
     return (
-      <View
-        style={{ flex: 1, flexDirection: "column", justifyContent: "center" }}
-      >
-        <FontAwesomeIcon
-          icon={faStar}
-          style={{ ...styles.icon, color: fav }}
-          size={40}
-        />
+      <View style={{ ...styles.saveView, backgroundColor: "rgba(0,100,0,.4)" }}>
+        <Text style={styles.save}>Save</Text>
       </View>
     );
   };
-  return (
-    <Animated.View style={{ opacity: fadeIn }}>
-      <TouchableOpacity
-        activeOpacity={0.7}
-        style={styles.margin}
-        onPress={e => {
-          bg();
+
+  const renderDelete = () => {
+    return (
+      <View
+        style={{
+          ...styles.saveView,
+          marginLeft: 10,
+          marginRight: 0,
+          backgroundColor: "rgba(150,0,0,.3)"
         }}
-        delayLongPress={500}
-        onLongPress={() =>
-          Share.share({ message: `${item.url}`, url: item.url })
-        }
       >
-        <Swipeable renderLeftActions={renderSave}>
+        <Text style={styles.save}>Delete</Text>
+      </View>
+    );
+  };
+
+  return (
+    <Swipeable renderRightActions={renderSave} renderLeftActions={renderDelete}>
+      <Animated.View style={{ opacity: fadeIn }}>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={styles.margin}
+          onPress={e => {
+            bg();
+          }}
+          delayLongPress={500}
+          onLongPress={() =>
+            Share.share({ message: `${item.url}`, url: item.url })
+          }
+        >
           <View
-            style={styles.card}
-            backgroundColor={cardColor[Math.floor(Math.random() * 6)]}
+            style={{
+              ...styles.card,
+              backgroundColor: cardColor[Math.floor(Math.random() * 6)]
+            }}
           >
             <Animated.View
               style={{
@@ -127,9 +137,9 @@ const NewsComponent = ({ item }) => {
 
             <Text style={styles.title}>{item.title}</Text>
           </View>
-        </Swipeable>
-      </TouchableOpacity>
-    </Animated.View>
+        </TouchableOpacity>
+      </Animated.View>
+    </Swipeable>
   );
 };
 const styles = StyleSheet.create({
@@ -161,6 +171,19 @@ const styles = StyleSheet.create({
   },
   icon: {
     margin: 10
+  },
+  saveView: {
+    margin: 10,
+    marginLeft: 0,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    borderRadius: 20
+  },
+  save: {
+    color: "white",
+    fontSize: 24,
+    paddingHorizontal: 10
   }
 });
 
