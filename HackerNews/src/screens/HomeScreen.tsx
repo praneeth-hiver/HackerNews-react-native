@@ -5,7 +5,10 @@ import useNews from "../hooks/useNews";
 import NewsComponent from "../components/NewsComponent";
 // import LottieView from "lottie-react-native";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
+  console.log(navigation);
+  const userData = navigation.state.params.userInfo;
+  console.log(userData);
   const [term, setTerm] = useState();
   const [refr, setRefresh] = useState(false);
   const [results, getResults, getInitialResults] = useNews();
@@ -17,7 +20,7 @@ const HomeScreen = () => {
   return (
     <View style={{ ...styles.home, backgroundColor: "white" }}>
       <SafeAreaView>
-        {/* <Text style={styles.search}>Search</Text> */}
+        <Text style={styles.search}>What up {userData.user.displayName}!</Text>
         <View>
           <SearchBar
             kind="Search"
