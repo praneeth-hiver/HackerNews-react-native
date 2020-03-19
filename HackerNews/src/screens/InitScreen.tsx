@@ -6,7 +6,10 @@ import {
   SafeAreaView,
   StyleSheet,
   Dimensions,
-  Platform
+  Platform,
+  TouchableOpacity,
+  Image,
+  Text
 } from "react-native";
 import LottieView from "lottie-react-native";
 
@@ -45,12 +48,13 @@ const InitScreen = ({ navigation }) => {
         />
       </View>
       <View style={styles.view}>
-        <GoogleSigninButton
-          style={styles.google}
-          size={GoogleSigninButton.Size.Icon}
-          color={GoogleSigninButton.Color.Dark}
-          onPress={handleSignin}
-        />
+        <TouchableOpacity style={styles.button} onPress={handleSignin}>
+          <Image
+            style={Platform.OS === "ios" ? styles.img : { elevation: 5 }}
+            source={require("../assets/google-logo.png")}
+          />
+          {/* <Text style={styles.btntxt}>Continue with Google</Text> */}
+        </TouchableOpacity>
         {userInfo ? navigateHome() : null}
       </View>
     </SafeAreaView>
@@ -81,6 +85,28 @@ const styles = StyleSheet.create({
     left: -200,
     top: -150,
     height: height * 1.9
+  },
+  button: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    backgroundColor: "rgba(255,255,255,0)",
+    borderRadius: 40,
+    marginTop: 30
+  },
+  img: {
+    height: 50,
+    width: 50,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2
+  },
+  btntxt: {
+    alignSelf: "center",
+    fontSize: 20,
+    color: "blue",
+    padding: 5
   }
 });
 
