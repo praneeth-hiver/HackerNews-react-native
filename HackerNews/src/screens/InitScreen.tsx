@@ -27,25 +27,22 @@ const InitScreen = ({ navigation }) => {
     });
   };
 
-  useEffect(() => {});
+  useEffect(() => {
+    if (userInfo) {
+      navigateHome();
+    }
+  }, []);
 
   return (
     <SafeAreaView>
       <View style={styles.Topview}>
-        {Platform.OS === "android" ? (
-          <LottieView
-            source={require("../assets/smokingCowboy.json")}
-            autoPlay
-            loop
-          />
-        ) : (
-          <LottieView
-            style={styles.lotte}
-            source={require("../assets/abstract2.json")}
-            autoPlay
-            loop
-          />
-        )}
+        <LottieView
+          style={Platform.OS === "android" ? styles.lotteAndroid : styles.lotte}
+          source={require("../assets/abstract2.json")}
+          autoPlay
+          loop
+          autoSize={true}
+        />
       </View>
       <View style={styles.view}>
         <GoogleSigninButton
@@ -74,6 +71,10 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderWidth: 8,
     borderRadius: 20
+  },
+  lotteAndroid: {
+    top: 40,
+    transform: [{ scaleX: 1.9 }, { scaleY: 1.9 }]
   },
   lotte: {
     position: "relative",
