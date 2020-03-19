@@ -5,18 +5,18 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
-  Alert,
-  Linking,
   Share,
   Animated
 } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
+import renderSave from "./SwipeSave";
+import renderDelete from "./SwipeDelete";
+import alert from "./googleAlert";
 
 const NewsComponent = ({ item }) => {
   const size = new Animated.Value(0);
   const opacity = new Animated.Value(1);
   const [fadeIn] = useState(new Animated.Value(0));
-  const [fav, setFav] = useState("grey");
 
   useEffect(() => {
     Animated.timing(fadeIn, {
@@ -40,7 +40,7 @@ const NewsComponent = ({ item }) => {
       toValue: 15000,
       duration: 700
     }).start(() => {
-      alert();
+      alert(item.url);
       Animated.timing(opacity, {
         toValue: 0,
         duration: 500
@@ -56,46 +56,6 @@ const NewsComponent = ({ item }) => {
         });
       });
     });
-  };
-  const alert = () => {
-    return Alert.alert(
-      "Look up?",
-      "",
-      [
-        {
-          text: "Google it",
-          onPress: () => Linking.openURL(item.url)
-        },
-        {
-          text: "Cancel",
-          style: "cancel"
-        }
-      ],
-      { cancelable: false }
-    );
-  };
-
-  const renderSave = () => {
-    return (
-      <View style={{ ...styles.saveView, backgroundColor: "rgba(0,100,0,.4)" }}>
-        <Text style={styles.save}>Save</Text>
-      </View>
-    );
-  };
-
-  const renderDelete = () => {
-    return (
-      <View
-        style={{
-          ...styles.saveView,
-          marginLeft: 10,
-          marginRight: 0,
-          backgroundColor: "rgba(150,0,0,.3)"
-        }}
-      >
-        <Text style={styles.save}>Delete</Text>
-      </View>
-    );
   };
 
   return (
@@ -179,11 +139,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     borderRadius: 20
-  },
-  save: {
-    color: "white",
-    fontSize: 24,
-    paddingHorizontal: 10
   }
 });
 

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>877760635365-nfujip8iiktar6t0qq61l9ufoqdg7qns.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.877760635365-nfujip8iiktar6t0qq61l9ufoqdg7qns</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>877760635365-8notgj02shtokt0u213o4mhjiascvab6.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDDecKingMXSzxcjCxNBoTaeHHEFo5Jsm0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>877760635365</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.HackerNews</string>
+	<key>PROJECT_ID</key>
+	<string>hacker-news-f3862</string>
+	<key>STORAGE_BUCKET</key>
+	<string>hacker-news-f3862.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:877760635365:ios:294f6a047ea5ad97ca0f0c</string>
+	<key>DATABASE_URL</key>
+	<string>https://hacker-news-f3862.firebaseio.com</string>
+</dict>
+</plist>

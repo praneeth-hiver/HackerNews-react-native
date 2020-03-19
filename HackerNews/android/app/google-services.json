@@ -8,7 +8,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:877760635365:android:96484c44ad9c29a1ca0f0c",
+        "mobilesdk_app_id": "1:877760635365:android:0afee60c31b49a50ca0f0c",
         "android_client_info": {
           "package_name": "com.hackernews"
         }
@@ -38,6 +38,13 @@
             {
               "client_id": "877760635365-k34sk45o4vqeekelckj1sh80di8ods72.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "877760635365-nfujip8iiktar6t0qq61l9ufoqdg7qns.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.HackerNews"
+              }
             }
           ]
         }
