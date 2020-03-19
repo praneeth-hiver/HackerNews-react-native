@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GoogleSigninButton } from "@react-native-community/google-signin";
 import { googleLogin } from "../Firebase/GoogleSignin";
-import { View, SafeAreaView, StyleSheet } from "react-native";
+import { View, SafeAreaView, StyleSheet, Dimensions } from "react-native";
+import LottieView from "lottie-react-native";
+
+const { height, width } = Dimensions.get("screen");
 
 const InitScreen = ({ navigation }) => {
-  const [userInfo, setUserInfo] = useState();
+  const [userInfo, setUserInfo] = useState({ user: { displayName: "Gunas" } });
 
   const navigateHome = () => {
     console.log(userInfo);
@@ -17,8 +20,24 @@ const InitScreen = ({ navigation }) => {
     });
   };
 
+  useEffect(() => {});
+
   return (
     <SafeAreaView>
+      <View style={styles.Topview}>
+        {/* <LottieView
+          style={styles.lotte}
+          source={require("../assets/smokingCowboy.json")}
+          autoPlay
+          loop
+        /> */}
+        <LottieView
+          style={styles.lotte}
+          source={require("../assets/abstract2.json")}
+          autoPlay
+          loop
+        />
+      </View>
       <View style={styles.view}>
         <GoogleSigninButton
           style={styles.google}
@@ -33,15 +52,25 @@ const InitScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  Topview: {
+    height: height / 1.5
+  },
   view: {
-    flex: 1,
-    flexDirection: "column",
+    display: "flex",
+    flexDirection: "row",
     justifyContent: "center"
   },
   google: {
-    borderRadius: 30,
-    height: 60,
-    padding: 0
+    margin: 30,
+    borderColor: "white",
+    borderWidth: 8,
+    borderRadius: 20
+  },
+  lotte: {
+    position: "relative",
+    left: -200,
+    top: -150,
+    height: height * 1.9
   }
 });
 

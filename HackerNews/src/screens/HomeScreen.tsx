@@ -3,12 +3,11 @@ import { StyleSheet, View, FlatList, SafeAreaView, Text } from "react-native";
 import SearchBar from "../components/SearchBar";
 import useNews from "../hooks/useNews";
 import NewsComponent from "../components/NewsComponent";
-// import LottieView from "lottie-react-native";
+import LottieView from "lottie-react-native";
 
 const HomeScreen = ({ navigation }) => {
-  console.log(navigation);
   const userData = navigation.state.params.userInfo;
-  console.log(userData);
+
   const [term, setTerm] = useState();
   const [refr, setRefresh] = useState(false);
   const [results, getResults, getInitialResults] = useNews();
@@ -31,14 +30,14 @@ const HomeScreen = ({ navigation }) => {
             }}
           />
         </View>
-        {/* {results ? null : (
+        {results ? null : (
           <LottieView
             style={styles.lotte}
             source={require("../assets/content_loader.json")}
             autoPlay
             loop
           />
-        )} */}
+        )}
         <FlatList
           data={results}
           keyExtractor={item => item.objectID}
