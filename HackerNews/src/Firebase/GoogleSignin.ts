@@ -31,15 +31,12 @@ export async function googleLogin() {
 
     return firebaseUserCredential;
   } catch (error) {
-    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-      // user cancelled the login flow
-      Alert.prompt("You cancelled signin");
-    } else if (error.code === statusCodes.IN_PROGRESS) {
-      Alert.prompt("Progress");
+    if (error.code === statusCodes.IN_PROGRESS) {
+      Alert.alert("Progress");
     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-      Alert.prompt("Make sure you have play services installed.");
+      Alert.alert("Make sure you have play services installed.");
     } else {
-      // some other error happened
+      console.warn(error);
     }
   }
 }

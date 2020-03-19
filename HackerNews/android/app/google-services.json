@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "877760635365-8notgj02shtokt0u213o4mhjiascvab6.apps.googleusercontent.com",
+          "client_id": "877760635365-l07j3nhndap5kdom5j4ncb82ltuo0dtv.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.hackernews",
-            "certificate_hash": "02a35c03ad7d1453d16ea55df988d0ff12eaf1ea"
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
