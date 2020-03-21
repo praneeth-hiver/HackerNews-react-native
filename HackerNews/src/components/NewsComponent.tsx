@@ -4,16 +4,16 @@ import {
   Text,
   StyleSheet,
   Dimensions,
-  TouchableOpacity,
   Share,
-  Animated
+  Animated,
+  TouchableWithoutFeedback
 } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import renderSave from "./SwipeSave";
-import renderDelete from "./SwipeDelete";
 import alert from "./googleAlert";
 
-const NewsComponent = ({ item }) => {
+const NewsComponent = ({ item, navigation }) => {
+  const { height, width } = Dimensions.get("screen");
   const size = new Animated.Value(0);
   const opacity = new Animated.Value(1);
   const [fadeIn] = useState(new Animated.Value(0));
@@ -36,11 +36,16 @@ const NewsComponent = ({ item }) => {
   ];
 
   const bg = () => {
+    // Animated.timing(Bheight, {
+    //   toValue: height,
+    //   duration: 700
+    // }).start();
+
     Animated.timing(size, {
       toValue: 15000,
       duration: 700
     }).start(() => {
-      alert(item.url);
+      // navigation.navigate("Browser", { uri: item.url });
       Animated.timing(opacity, {
         toValue: 0,
         duration: 500
@@ -59,11 +64,9 @@ const NewsComponent = ({ item }) => {
   };
 
   return (
-    <Swipeable renderRightActions={renderSave} renderLeftActions={renderDelete}>
+    <Swipeable renderLeftActions={renderSave} renderRightActions={null}>
       <Animated.View style={{ opacity: fadeIn }}>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={styles.margin}
+        <TouchableWithoutFeedback
           onPress={e => {
             bg();
           }}
@@ -83,12 +86,12 @@ const NewsComponent = ({ item }) => {
                 opacity: opacity,
                 position: "absolute",
                 alignSelf: "center",
-                transform: [{ translateX: 70 }, { translateY: -20 }],
-                backgroundColor: "white",
+                transform: [{ translateX: 0 }, { translateY: -20 }],
+                backgroundColor: "rgba(245,255,245,1)",
                 height: size,
                 width: size,
                 borderRadius: size,
-                overflow: "visible"
+                zIndex: 1
               }}
             ></Animated.View>
             <View style={styles.score}>
@@ -97,30 +100,41 @@ const NewsComponent = ({ item }) => {
 
             <Text style={styles.title}>{item.title}</Text>
           </View>
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
       </Animated.View>
     </Swipeable>
   );
 };
 const styles = StyleSheet.create({
-  margin: {
-    margin: 10
-  },
   newsStyle: {
     flex: 1,
     flexDirection: "row",
     margin: 4
   },
   card: {
+    marginVertical: 20,
+    marginLeft: 30,
+    marginRight: 0,
     padding: 10,
     width: Math.round(Dimensions.get("window").width) / 1.056,
-    borderRadius: 20
+    borderTopLeftRadius: 20,
+    borderBottomLeftRadius: 20,
+    shadowColor: "black",
+    shadowOffset: { width: 4, height: 6 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10
+    // backgroundColor: "white"
   },
   score: {
+    fontFamily: "Montserrat-Light",
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
     height: Math.round(Dimensions.get("window").width) / 8.5,
     width: Math.round(Dimensions.get("window").width) / 8.5,
     borderRadius: 50,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center"
   },

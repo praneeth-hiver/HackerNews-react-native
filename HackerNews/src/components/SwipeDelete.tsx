@@ -8,7 +8,7 @@ const renderDelete = () => {
         ...styles.saveView,
         marginLeft: 10,
         marginRight: 0,
-        backgroundColor: "rgba(150,0,0,.3)"
+        backgroundColor: "rgba(50,50,50,.3)"
       }}
     >
       <Text style={styles.save}>Delete</Text>

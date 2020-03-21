@@ -1,25 +1,29 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 const renderSave = () => {
   return (
-    <View style={{ ...styles.saveView, backgroundColor: "rgba(0,100,0,.4)" }}>
+    <TouchableOpacity style={styles.saveView}>
       <Text style={styles.save}>Save</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   saveView: {
-    margin: 10,
-    marginLeft: 0,
+    marginVertical: 20,
+    marginLeft: 30,
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    borderRadius: 20
+    borderRadius: 20,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.3,
+    shadowRadius: 7,
+    backgroundColor: "rgba(245,255,245,.7)"
   },
   save: {
-    color: "white",
     fontSize: 24,
     paddingHorizontal: 10
   }

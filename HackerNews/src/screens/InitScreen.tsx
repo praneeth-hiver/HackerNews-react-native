@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { GoogleSigninButton } from "@react-native-community/google-signin";
+import React, { useEffect } from "react";
+import { NavigationActions } from "react-navigation";
 import { googleLogin } from "../Firebase/GoogleSignin";
 import {
   View,
@@ -9,31 +9,45 @@ import {
   Platform,
   TouchableOpacity,
   Image,
-  Text
+  AsyncStorage
 } from "react-native";
 import LottieView from "lottie-react-native";
+import { storeLocal, retrieveLocal } from "../asyncActivities/getSet";
 
 const { height, width } = Dimensions.get("screen");
 
 const InitScreen = ({ navigation }) => {
-  // { user: { displayName: "Gunas" } }
-  const [userInfo, setUserInfo] = useState();
+  const navigateHome = obj => {
+    navigation.reset(
+      [NavigationActions.navigate({ routeName: "Home", params: { obj } })],
+      0
+    );
+  };
 
-  const navigateHome = () => {
-    console.log(userInfo);
-    navigation.navigate("Home", { userInfo });
+  const retrieveLocal = async (store, key) => {
+    try {
+      await AsyncStorage.getItem(`@${store}:${key}`).then(data => {
+        if (data) {
+          const json = JSON.parse(data);
+          console.log("Getting data from local storage", json);
+          navigateHome(json);
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleSignin = async () => {
     await googleLogin().then(user => {
-      setUserInfo(user);
+      storeLocal("LoginData", "userInfo", user).then(() => {
+        navigateHome(user);
+      });
     });
   };
 
   useEffect(() => {
-    if (userInfo) {
-      navigateHome();
-    }
+    retrieveLocal("LoginData", "userInfo");
   }, []);
 
   return (
@@ -50,12 +64,11 @@ const InitScreen = ({ navigation }) => {
       <View style={styles.view}>
         <TouchableOpacity style={styles.button} onPress={handleSignin}>
           <Image
-            style={Platform.OS === "ios" ? styles.img : { elevation: 5 }}
+            style={styles.img}
             source={require("../assets/google-logo.png")}
           />
           {/* <Text style={styles.btntxt}>Continue with Google</Text> */}
         </TouchableOpacity>
-        {userInfo ? navigateHome() : null}
       </View>
     </SafeAreaView>
   );

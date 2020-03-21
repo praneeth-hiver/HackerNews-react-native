@@ -5,11 +5,11 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const SearchBar = ({ term, onTermChangeGetNews, kind }) => {
   return (
-    <View style={styles.background}>
-      <FontAwesomeIcon icon={faSearch} style={styles.icon} size={16} />
+    <View style={{ ...styles.background, height: 35 }}>
+      <FontAwesomeIcon icon={faSearch} style={styles.icon} size={20} />
       <TextInput
         style={styles.text}
-        placeholder={kind}
+        placeholder={"                "}
         value={term}
         onChangeText={onTermChangeGetNews}
         autoCapitalize="none"
@@ -22,11 +22,14 @@ const styles = StyleSheet.create({
   background: {
     display: "flex",
     flexDirection: "row",
-    backgroundColor: "white",
-    height: 35,
-    borderRadius: 3,
-    margin: 5,
-    marginTop: 10
+    backgroundColor: "rgba(245,255,245,.5)",
+    borderRadius: 15,
+    marginHorizontal: 30,
+    marginTop: 10,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.3,
+    shadowRadius: 7
   },
   text: {
     fontSize: 16,
@@ -36,7 +39,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     alignSelf: "center",
-    color: "#5F6368",
+    color: "black",
     margin: 8
   }
 });
