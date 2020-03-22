@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-const SearchBar = ({ term, onTermChangeGetNews, kind }) => {
+const SearchBar = ({ term, onTermChangeGetNews }) => {
   return (
     <View style={{ ...styles.background, height: 35 }}>
       <FontAwesomeIcon icon={faSearch} style={styles.icon} size={20} />
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   background: {
     display: "flex",
     flexDirection: "row",
-    backgroundColor: "rgba(245,255,245,.5)",
+    backgroundColor: "rgba(245,255,245,.7)",
     borderRadius: 15,
     marginHorizontal: 30,
     marginTop: 10,
@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    marginLeft: 5,
     alignSelf: "center",
     padding: 0
   },

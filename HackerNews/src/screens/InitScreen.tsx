@@ -24,9 +24,9 @@ const InitScreen = ({ navigation }) => {
     );
   };
 
-  const retrieveLocal = async (store, key) => {
+  const retrieveLocal = async (key: string) => {
     try {
-      await AsyncStorage.getItem(`@${store}:${key}`).then(data => {
+      await AsyncStorage.getItem(key).then(data => {
         if (data) {
           const json = JSON.parse(data);
           console.log("Getting data from local storage", json);
@@ -40,14 +40,14 @@ const InitScreen = ({ navigation }) => {
 
   const handleSignin = async () => {
     await googleLogin().then(user => {
-      storeLocal("LoginData", "userInfo", user).then(() => {
+      storeLocal("userInfo", user).then(() => {
         navigateHome(user);
       });
     });
   };
 
   useEffect(() => {
-    retrieveLocal("LoginData", "userInfo");
+    retrieveLocal("userInfo");
   }, []);
 
   return (
@@ -59,6 +59,7 @@ const InitScreen = ({ navigation }) => {
           autoPlay
           loop
           autoSize={true}
+          speed={0.3}
         />
       </View>
       <View style={styles.view}>

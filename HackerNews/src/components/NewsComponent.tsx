@@ -45,7 +45,7 @@ const NewsComponent = ({ item, navigation }) => {
       toValue: 15000,
       duration: 700
     }).start(() => {
-      // navigation.navigate("Browser", { uri: item.url });
+      navigation.navigate("Browser", { uri: item.url });
       Animated.timing(opacity, {
         toValue: 0,
         duration: 500
@@ -128,13 +128,13 @@ const styles = StyleSheet.create({
   score: {
     fontFamily: "Montserrat-Light",
     shadowColor: "black",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
+    shadowOffset: { width: 2, height: 3 },
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
     height: Math.round(Dimensions.get("window").width) / 8.5,
     width: Math.round(Dimensions.get("window").width) / 8.5,
     borderRadius: 50,
-    backgroundColor: "white",
+    backgroundColor: "rgba(245,255,245,1)",
     alignItems: "center",
     justifyContent: "center"
   },

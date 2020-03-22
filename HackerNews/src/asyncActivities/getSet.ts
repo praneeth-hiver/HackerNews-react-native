@@ -1,17 +1,17 @@
 import { AsyncStorage } from "react-native";
 import { NavigationActions } from "react-navigation";
 
-export const storeLocal = async (store, key, value) => {
+export const storeLocal = async (key: string, value) => {
   try {
-    await AsyncStorage.setItem(`@${store}:${key}`, JSON.stringify(value));
+    await AsyncStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
     console.warn(error);
   }
 };
 
-export const retrieveLocal = async (store, key) => {
+export const retrieveLocal = async key => {
   try {
-    await AsyncStorage.getItem(`@${store}:${key}`).then(data => {
+    await AsyncStorage.getItem(key).then(data => {
       if (data) {
         console.log("Getting data from local storage", data);
       }

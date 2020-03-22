@@ -1,25 +1,68 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { Animated, Text, StyleSheet, AsyncStorage } from "react-native";
+import { NavigationActions } from "react-navigation";
 
-export const Menu = () => {
+export const renderMenu = ({ w, navigation, ty }) => {
   return (
-    <TouchableOpacity style={{ marginHorizontal: 35 }}>
-      <View style={styles.lineOne}></View>
-      <View style={styles.lineTwo}></View>
-    </TouchableOpacity>
+    <Animated.View style={{ width: w }}>
+      <Animated.Text
+        style={{
+          ...styles.menu,
+          transform: [
+            { rotate: "-90deg" },
+            { translateX: -90 },
+            { translateY: ty }
+          ]
+        }}
+      >
+        Medium
+      </Animated.Text>
+
+      <Animated.Text
+        style={{
+          ...styles.menu,
+          transform: [
+            { rotate: "-90deg" },
+            { translateX: -100 * 2 },
+            { translateY: ty }
+          ]
+        }}
+      >
+        Account
+      </Animated.Text>
+
+      <Animated.Text
+        style={{
+          ...styles.menu,
+          transform: [
+            { rotate: "-90deg" },
+            { translateX: -100 * 3 },
+            { translateY: ty }
+          ]
+        }}
+        onPress={() => {
+          AsyncStorage.removeItem("userInfo")
+            .then(() => {
+              navigation.reset(
+                [NavigationActions.navigate({ routeName: "Init" })],
+                0
+              );
+            })
+            .catch(error => {
+              console.warn(error);
+            });
+        }}
+      >
+        Logout
+      </Animated.Text>
+    </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
-  lineOne: {
-    backgroundColor: "black",
-    height: 3,
-    width: 15,
-    marginBottom: 5
-  },
-  lineTwo: {
-    backgroundColor: "black",
-    height: 3,
-    width: 9
+  menu: {
+    fontWeight: "500",
+    fontSize: 20,
+    height: 25
   }
 });
