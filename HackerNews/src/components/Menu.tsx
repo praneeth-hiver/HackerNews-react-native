@@ -15,7 +15,7 @@ export const renderMenu = ({ w, navigation, ty }) => {
           ]
         }}
       >
-        Medium
+        Favs
       </Animated.Text>
 
       <Animated.Text

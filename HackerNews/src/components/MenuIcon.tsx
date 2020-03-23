@@ -19,7 +19,6 @@ export const MenuIcon = ({ bodyOpacity, w, ty }) => {
       style={{ marginHorizontal: 35 }}
       onPress={() => {
         setOpen(!open);
-
         Animated.timing(width, {
           toValue: open ? 15 : 9,
           duration: 200
@@ -35,23 +34,20 @@ export const MenuIcon = ({ bodyOpacity, w, ty }) => {
         }).start();
         !open
           ? Animated.timing(w, {
-              toValue: open ? 82 : 0,
-              duration: 200
+              toValue: open ? 80 : 0,
+              duration: 300
             }).start()
           : Animated.spring(w, {
-              toValue: open ? 82 : 0,
+              toValue: open ? 80 : 0,
               overshootClamping: false,
               velocity: 2,
-              bounciness: 5,
-              speed: 4
+              bounciness: 10,
+              speed: 10
             }).start();
-        Animated.spring(ty, {
+        Animated.timing(ty, {
           toValue: open ? 0 : -65,
-          overshootClamping: false,
-          velocity: 2,
-          bounciness: 10,
-          speed: 4,
-          delay: 300
+          duration: 200,
+          delay: 250
         }).start();
       }}
     >
