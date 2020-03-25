@@ -8,8 +8,7 @@ import {
   Dimensions,
   Platform,
   TouchableOpacity,
-  Image,
-  AsyncStorage
+  Image
 } from "react-native";
 import LottieView from "lottie-react-native";
 import { storeLocal, retrieveLocal } from "../asyncActivities/getSet";
@@ -50,20 +49,6 @@ const InitScreen = ({ navigation }) => {
     );
   };
 
-  const retrieveLocal = async (key: string) => {
-    try {
-      await AsyncStorage.getItem(key).then(data => {
-        if (data) {
-          const json = JSON.parse(data);
-          console.log("Getting data from local storage", json);
-          navigateHome(json);
-        }
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const handleSignin = async () => {
     await googleLogin().then(user => {
       storeLocal("userInfo", user).then(() => {
@@ -73,7 +58,13 @@ const InitScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    retrieveLocal("userInfo");
+    retrieveLocal("userInfo").then(data => {
+      if (data) {
+        console.log("Getting data from local storage", data);
+        const json = JSON.parse(data);
+        navigateHome(json);
+      }
+    });
   }, []);
 
   return (

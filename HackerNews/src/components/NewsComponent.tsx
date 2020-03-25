@@ -126,14 +126,13 @@ const styles = StyleSheet.create({
     // backgroundColor: "white"
   },
   score: {
-    fontFamily: "Montserrat-Light",
     shadowColor: "black",
     shadowOffset: { width: 2, height: 3 },
     shadowOpacity: 0.4,
     shadowRadius: 3,
     elevation: 5,
-    height: Math.round(Dimensions.get("window").width) / 8.5,
-    width: Math.round(Dimensions.get("window").width) / 8.5,
+    height: Math.round(Dimensions.get("window").width) / 8,
+    width: Math.round(Dimensions.get("window").width) / 8,
     borderRadius: 50,
     backgroundColor: "rgba(245,255,245,1)",
     alignItems: "center",
