@@ -3,6 +3,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import HomeScreen from "./src/screens/HomeScreen";
 import InitScreen from "./src/screens/InitScreen";
 import Browser from "./src/screens/Browser";
+import Favs from "./src/screens/Favs";
 
 const MainNavigator = createStackNavigator(
   {
@@ -20,6 +21,12 @@ const MainNavigator = createStackNavigator(
     },
     Browser: {
       screen: Browser,
+      navigationOptions: {
+        headerShown: false
+      }
+    },
+    Favs: {
+      screen: Favs,
       navigationOptions: {
         headerShown: false
       }

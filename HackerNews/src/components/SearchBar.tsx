@@ -2,6 +2,7 @@ import React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import Voice from "@react-native-community/voice";
 
 const SearchBar = ({ term, onTermChangeGetNews }) => {
   return (
@@ -13,6 +14,7 @@ const SearchBar = ({ term, onTermChangeGetNews }) => {
         value={term}
         onChangeText={onTermChangeGetNews}
         autoCapitalize="none"
+        autoCorrect={true}
       />
     </View>
   );
@@ -26,6 +28,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginHorizontal: 30,
     marginTop: 10,
+    // elevation: 5,
     shadowColor: "black",
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.3,

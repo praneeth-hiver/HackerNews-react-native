@@ -31,13 +31,19 @@ const HomeScreen = ({ navigation }) => {
     <View style={{ ...styles.home, backgroundColor: "rgba(245,255,245,1)" }}>
       <SafeAreaView>
         <View style={styles.header}>
-          <MenuIcon bodyOpacity={bodyOpacity} w={menuWidth} ty={ty} />
+          <MenuIcon
+            bodyOpacity={bodyOpacity}
+            w={menuWidth}
+            ty={ty}
+            onlyBack={false}
+            navigation={navigation}
+          />
           <Text style={styles.hello}>
             Hello, {userData.user.displayName.split(" ")[0]} !
           </Text>
         </View>
         <View style={{ ...styles.container }}>
-          {renderMenu({ w: menuWidth, navigation, ty })}
+          {renderMenu({ w: menuWidth, navigation, ty, userData })}
           <Animated.View style={{ ...styles.main, opacity: bodyOpacity }}>
             <SearchBar
               term={term}
@@ -69,7 +75,7 @@ const HomeScreen = ({ navigation }) => {
                   <NewsComponent
                     item={item}
                     navigation={navigation}
-                    // Bheight={Bheight}
+                    userData={userData}
                   />
                 );
               }}
