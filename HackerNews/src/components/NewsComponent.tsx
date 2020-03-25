@@ -10,10 +10,9 @@ import {
 } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import renderSave from "./SwipeSave";
-import alert from "./googleAlert";
 
-const NewsComponent = ({ item, navigation }) => {
-  const { height, width } = Dimensions.get("screen");
+const NewsComponent = ({ item, navigation, userData, setUpdated }) => {
+  // const { height, width } = Dimensions.get("screen");
   const size = new Animated.Value(0);
   const opacity = new Animated.Value(1);
   const [fadeIn] = useState(new Animated.Value(0));
@@ -36,11 +35,6 @@ const NewsComponent = ({ item, navigation }) => {
   ];
 
   const bg = () => {
-    // Animated.timing(Bheight, {
-    //   toValue: height,
-    //   duration: 700
-    // }).start();
-
     Animated.timing(size, {
       toValue: 15000,
       duration: 700
@@ -63,8 +57,13 @@ const NewsComponent = ({ item, navigation }) => {
     });
   };
 
+  const text = navigation.state.routeName === "Favs" ? "Delete" : "Save";
+
   return (
-    <Swipeable renderLeftActions={renderSave} renderRightActions={null}>
+    <Swipeable
+      renderLeftActions={() => renderSave({ userData, item, text, setUpdated })}
+      renderRightActions={null}
+    >
       <Animated.View style={{ opacity: fadeIn }}>
         <TouchableWithoutFeedback
           onPress={e => {
@@ -112,6 +111,7 @@ const styles = StyleSheet.create({
     margin: 4
   },
   card: {
+    elevation: 10,
     marginVertical: 20,
     marginLeft: 30,
     marginRight: 0,
@@ -126,13 +126,13 @@ const styles = StyleSheet.create({
     // backgroundColor: "white"
   },
   score: {
-    fontFamily: "Montserrat-Light",
     shadowColor: "black",
     shadowOffset: { width: 2, height: 3 },
     shadowOpacity: 0.4,
     shadowRadius: 3,
-    height: Math.round(Dimensions.get("window").width) / 8.5,
-    width: Math.round(Dimensions.get("window").width) / 8.5,
+    elevation: 5,
+    height: Math.round(Dimensions.get("window").width) / 8,
+    width: Math.round(Dimensions.get("window").width) / 8,
     borderRadius: 50,
     backgroundColor: "rgba(245,255,245,1)",
     alignItems: "center",

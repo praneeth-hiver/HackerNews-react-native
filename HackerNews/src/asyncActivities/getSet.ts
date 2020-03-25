@@ -11,11 +11,7 @@ export const storeLocal = async (key: string, value) => {
 
 export const retrieveLocal = async key => {
   try {
-    await AsyncStorage.getItem(key).then(data => {
-      if (data) {
-        console.log("Getting data from local storage", data);
-      }
-    });
+    return await AsyncStorage.getItem(key);
   } catch (error) {
     console.error(error);
   }

@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, TouchableOpacity, Animated, Easing } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Animated,
+  Easing,
+  Platform
+} from "react-native";
 
 const width = new Animated.Value(9);
 const spinValue = new Animated.Value(0);
@@ -12,43 +18,54 @@ const spin2 = spinValue.interpolate({
   outputRange: ["0deg", "-40deg"]
 });
 
-export const MenuIcon = ({ bodyOpacity, w, ty }) => {
+export const MenuIcon = ({
+  bodyOpacity = null,
+  w = null,
+  ty = null,
+  onlyBack,
+  navigation
+}) => {
   const [open, setOpen] = useState(true);
-  return (
-    <TouchableOpacity
-      style={{ marginHorizontal: 35 }}
-      onPress={() => {
-        setOpen(!open);
-        Animated.timing(width, {
-          toValue: open ? 15 : 9,
-          duration: 200
-        }).start();
-        Animated.timing(spinValue, {
-          toValue: open ? 1 : 0,
-          duration: 200,
-          easing: Easing.linear
-        }).start();
-        Animated.timing(bodyOpacity, {
+  const animate = () => {
+    setOpen(!open);
+    Animated.timing(width, {
+      toValue: open ? 15 : 9,
+      duration: 200
+    }).start();
+    Animated.timing(spinValue, {
+      toValue: open ? 1 : 0,
+      duration: 200,
+      easing: Easing.linear
+    }).start();
+    Platform.OS === "ios"
+      ? Animated.timing(bodyOpacity, {
           toValue: open ? 0.5 : 1,
           duration: 200
-        }).start();
-        !open
-          ? Animated.timing(w, {
-              toValue: open ? 80 : 0,
-              duration: 300
-            }).start()
-          : Animated.spring(w, {
-              toValue: open ? 80 : 0,
-              overshootClamping: false,
-              velocity: 2,
-              bounciness: 10,
-              speed: 10
-            }).start();
-        Animated.timing(ty, {
-          toValue: open ? 0 : -65,
-          duration: 200,
-          delay: 250
-        }).start();
+        }).start()
+      : null,
+      !open
+        ? Animated.timing(w, {
+            toValue: open ? 80 : 0,
+            duration: 300
+          }).start()
+        : Animated.spring(w, {
+            toValue: open ? 80 : 0,
+            overshootClamping: false,
+            velocity: 2,
+            bounciness: 10,
+            speed: 10
+          }).start();
+    Animated.timing(ty, {
+      toValue: open ? 0 : -65,
+      duration: 200,
+      delay: 250
+    }).start();
+  };
+  return (
+    <TouchableOpacity
+      style={{ padding: 35 }}
+      onPress={() => {
+        !onlyBack ? animate() : navigation.goBack();
       }}
     >
       <Animated.View

@@ -2,7 +2,7 @@ import React from "react";
 import { Animated, Text, StyleSheet, AsyncStorage } from "react-native";
 import { NavigationActions } from "react-navigation";
 
-export const renderMenu = ({ w, navigation, ty }) => {
+export const renderMenu = ({ w, navigation, ty, userData }) => {
   return (
     <Animated.View style={{ width: w }}>
       <Animated.Text
@@ -13,6 +13,9 @@ export const renderMenu = ({ w, navigation, ty }) => {
             { translateX: -90 },
             { translateY: ty }
           ]
+        }}
+        onPress={() => {
+          navigation.navigate("Favs", { userInfo: userData });
         }}
       >
         Favs
