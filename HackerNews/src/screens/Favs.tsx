@@ -10,7 +10,7 @@ const Favs = ({ navigation }) => {
   const [results, setResults] = useState();
   const [updated, setUpdated] = useState(false);
 
-  useEffect(() => {
+  const fetchData = () => {
     const ref = firebase
       .firestore()
       .collection("Articles")
@@ -29,13 +29,17 @@ const Favs = ({ navigation }) => {
       .catch(error => {
         console.log("Transaction failed: ", error);
       });
+  };
+
+  useEffect(() => {
     if (updated) {
       setUpdated(false);
     }
+    fetchData();
   }, [updated]);
 
   return (
-    <SafeAreaView style={{ backgroundColor: "rgba(245,255,245,1)" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "rgba(245,255,245,1)" }}>
       <View style={styles.header}>
         <MenuIcon onlyBack={true} navigation={navigation} />
         <Text style={styles.hello}></Text>

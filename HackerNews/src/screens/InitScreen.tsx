@@ -13,11 +13,37 @@ import {
 } from "react-native";
 import LottieView from "lottie-react-native";
 import { storeLocal, retrieveLocal } from "../asyncActivities/getSet";
+import firebase from "react-native-firebase";
 
 const { height, width } = Dimensions.get("screen");
 
 const InitScreen = ({ navigation }) => {
   const navigateHome = obj => {
+    const { uid } = obj.user;
+
+    const user = {};
+    user[uid] = obj;
+
+    const ref = firebase
+      .firestore()
+      .collection("users")
+      .doc(`${uid}`);
+
+    firebase
+      .firestore()
+      .runTransaction(async transaction => {
+        const doc = await transaction.get(ref);
+        if (!doc.exists) {
+          transaction.set(ref, user);
+          console.log("New user: ", user);
+        }
+      })
+      .then(() => {
+        console.log("Transaction Successful");
+      })
+      .catch(error => {
+        console.log("Transaction failed: ", error);
+      });
     navigation.reset(
       [NavigationActions.navigate({ routeName: "Home", params: { obj } })],
       0
