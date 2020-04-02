@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import {
-  View,
-  Text,
   StyleSheet,
-  Dimensions,
   Share,
   Animated,
   TouchableWithoutFeedback
 } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
+import { PanGestureHandler, State } from "react-native-gesture-handler";
 import renderSave from "./SwipeSave";
+import Card from "./Card";
 
-const NewsComponent = ({ item, navigation, userData, setUpdated }) => {
-  // const { height, width } = Dimensions.get("screen");
+const NewsComponent = ({ item, navigation, userData, setUpdated = null }) => {
   const size = new Animated.Value(0);
   const opacity = new Animated.Value(1);
   const [fadeIn] = useState(new Animated.Value(0));
@@ -20,88 +18,114 @@ const NewsComponent = ({ item, navigation, userData, setUpdated }) => {
   useEffect(() => {
     Animated.timing(fadeIn, {
       toValue: 1,
-      duration: 500,
-      useNativeDriver: true
+      duration: 500
     }).start();
+
+    // setInterval(() => {
+    //   for (let i = 0; i < 1000; i++) {
+    //     console.log("Blocking JS Thread");
+    //   }
+    // }, 500);
   }, []);
 
-  const cardColor = [
-    "#9FBCC2",
-    "#AFC7BF",
-    "#C7CFC0",
-    "#DDD6CA",
-    "#EEDFDA",
-    "#9FBCC2"
-  ];
-
-  const bg = () => {
-    Animated.timing(size, {
-      toValue: 15000,
-      duration: 700
+  const bg = e => {
+    Animated.timing(D, {
+      toValue: {
+        x: e.nativeEvent.locationX,
+        y: e.nativeEvent.locationY
+      },
+      duration: 1
     }).start(() => {
-      navigation.navigate("Browser", { uri: item.url });
-      Animated.timing(opacity, {
-        toValue: 0,
-        duration: 500
+      Animated.timing(size, {
+        toValue: 15000,
+        duration: 1000,
+        delay: 10
       }).start(() => {
-        Animated.timing(size, {
+        // navigation.navigate("Browser", { uri: item.url });
+        Animated.timing(opacity, {
           toValue: 0,
-          duration: 1
+          duration: 300
         }).start(() => {
-          Animated.timing(opacity, {
-            toValue: 1,
+          Animated.timing(size, {
+            toValue: 0,
             duration: 1
-          }).start();
+          }).start(() => {
+            Animated.timing(opacity, {
+              toValue: 1,
+              duration: 1
+            }).start();
+          });
         });
       });
     });
   };
 
   const text = navigation.state.routeName === "Favs" ? "Delete" : "Save";
+  const D = new Animated.ValueXY({ x: 0, y: 0 });
+
+  const tranX = new Animated.Value(0);
+  const tranY = new Animated.Value(0);
+  const panCard = Animated.event(
+    [
+      {
+        nativeEvent: {
+          translationY: tranY,
+          translationX: tranX
+        }
+      }
+    ],
+    { useNativeDriver: true }
+
+    // { listener: event => console.log(event) }
+  );
+
+  const onLeave = e => {
+    if (e.nativeEvent.oldState == State.ACTIVE) {
+      Animated.spring(tranX, {
+        toValue: 0,
+        speed: 20,
+        useNativeDriver: true
+      }).start();
+      Animated.spring(tranY, {
+        toValue: 0,
+        speed: 20,
+        useNativeDriver: true
+      }).start();
+    }
+  };
 
   return (
-    <Swipeable
-      renderLeftActions={() => renderSave({ userData, item, text, setUpdated })}
-      renderRightActions={null}
+    <PanGestureHandler
+      onGestureEvent={panCard}
+      onHandlerStateChange={onLeave}
+      minPointers={1}
     >
-      <Animated.View style={{ opacity: fadeIn }}>
-        <TouchableWithoutFeedback
-          onPress={e => {
-            bg();
-          }}
-          delayLongPress={500}
-          onLongPress={() =>
-            Share.share({ message: `${item.url}`, url: item.url })
+      <Animated.View
+        style={{ transform: [{ translateY: tranY }, { translateX: tranX }] }}
+      >
+        <Swipeable
+          renderLeftActions={() =>
+            renderSave({ userData, item, text, setUpdated })
           }
+          renderRightActions={null}
         >
-          <View
-            style={{
-              ...styles.card,
-              backgroundColor: cardColor[Math.floor(Math.random() * 6)]
-            }}
-          >
-            <Animated.View
-              style={{
-                opacity: opacity,
-                position: "absolute",
-                alignSelf: "center",
-                transform: [{ translateX: 0 }, { translateY: -20 }],
-                backgroundColor: "rgba(245,255,245,1)",
-                height: size,
-                width: size,
-                borderRadius: size,
-                zIndex: 1
+          <Animated.View style={{ opacity: fadeIn, alignItems: "center" }}>
+            <TouchableWithoutFeedback
+              onPress={e => {
+                console.log(D);
+                bg(e);
               }}
-            ></Animated.View>
-            <View style={styles.score}>
-              <Text>{item.points}</Text>
-            </View>
-
-            <Text style={styles.title}>{item.title}</Text>
-          </View>
-        </TouchableWithoutFeedback>
+              delayLongPress={500}
+              onLongPress={() =>
+                Share.share({ message: `${item.url}`, url: item.url })
+              }
+            >
+              <Card item={item} opacity={opacity} size={size} />
+            </TouchableWithoutFeedback>
+          </Animated.View>
+        </Swipeable>
       </Animated.View>
-    </Swipeable>
+    </PanGestureHandler>
   );
 };
 const styles = StyleSheet.create({
@@ -109,39 +133,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     margin: 4
-  },
-  card: {
-    elevation: 10,
-    marginVertical: 20,
-    marginLeft: 30,
-    marginRight: 0,
-    padding: 10,
-    width: Math.round(Dimensions.get("window").width) / 1.056,
-    borderTopLeftRadius: 20,
-    borderBottomLeftRadius: 20,
-    shadowColor: "black",
-    shadowOffset: { width: 4, height: 6 },
-    shadowOpacity: 0.3,
-    shadowRadius: 10
-    // backgroundColor: "white"
-  },
-  score: {
-    shadowColor: "black",
-    shadowOffset: { width: 2, height: 3 },
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
-    elevation: 5,
-    height: Math.round(Dimensions.get("window").width) / 8,
-    width: Math.round(Dimensions.get("window").width) / 8,
-    borderRadius: 50,
-    backgroundColor: "rgba(245,255,245,1)",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  title: {
-    fontSize: 30,
-    padding: 30,
-    alignSelf: "center"
   },
   icon: {
     margin: 10

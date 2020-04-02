@@ -4,11 +4,14 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios --simulator='iPhone 11 Pro'",
+    "ios": "react-native run-ios --simulator='iPhone 11 Pro Max'",
     "start": "react-native start",
     "clear": "rm -rf node_modules **/**/node_modules",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "bundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
+    "gradle": "cd android && ./gradlew clean app:assembleRelease -x bundleReleaseJsAndAssets",
+    "installDiv": " cd android && adb install -r ./app/build/outputs/apk/release/app-release.apk"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
@@ -44,6 +47,7 @@
     "babel-jest": "^24.9.0",
     "eslint": "^6.5.1",
     "jest": "^24.9.0",
+    "jetifier": "^1.6.5",
     "metro-react-native-babel-preset": "^0.56.0",
     "react-test-renderer": "16.9.0",
     "typescript": "^3.7.3"
