@@ -32,7 +32,6 @@ const HomeScreen = ({ navigation }) => {
     getInitialResults();
   }, []);
 
-  console.log(Colors);
   return (
     <View style={{ ...styles.home, backgroundColor: Colors.background() }}>
       <SafeAreaView>

@@ -15,8 +15,6 @@ const Browser = ({ navigation }) => {
     return () => backHandler.remove();
   });
   const url = navigation.state.params.uri;
-  console.log(url);
-  console.log();
   return (
     <>
       <WebView
