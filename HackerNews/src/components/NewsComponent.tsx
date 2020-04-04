@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
-  StyleSheet,
   Share,
   Animated,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Dimensions
 } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { PanGestureHandler, State } from "react-native-gesture-handler";
@@ -14,6 +14,7 @@ const NewsComponent = ({ item, navigation, userData, setUpdated = null }) => {
   const size = new Animated.Value(0);
   const opacity = new Animated.Value(1);
   const [fadeIn] = useState(new Animated.Value(0));
+  const { height, width } = Dimensions.get("window");
 
   useEffect(() => {
     Animated.timing(fadeIn, {
@@ -65,6 +66,11 @@ const NewsComponent = ({ item, navigation, userData, setUpdated = null }) => {
 
   const tranX = new Animated.Value(0);
   const tranY = new Animated.Value(0);
+  const op = tranY.interpolate({
+    inputRange: [0, 200],
+    outputRange: [1, 0]
+    // extrapolate: "extend"
+  });
   const panCard = Animated.event(
     [
       {
@@ -98,7 +104,7 @@ const NewsComponent = ({ item, navigation, userData, setUpdated = null }) => {
     <PanGestureHandler
       onGestureEvent={panCard}
       onHandlerStateChange={onLeave}
-      minPointers={1}
+      minPointers={2}
     >
       <Animated.View
         style={{ transform: [{ translateY: tranY }, { translateX: tranX }] }}
@@ -120,7 +126,10 @@ const NewsComponent = ({ item, navigation, userData, setUpdated = null }) => {
                 Share.share({ message: `${item.url}`, url: item.url })
               }
             >
-              <Card item={item} opacity={opacity} size={size} />
+              <Card
+                item={item}
+                stylee={{ op: op, opacity: opacity, size: size }}
+              />
             </TouchableWithoutFeedback>
           </Animated.View>
         </Swipeable>
@@ -128,23 +137,5 @@ const NewsComponent = ({ item, navigation, userData, setUpdated = null }) => {
     </PanGestureHandler>
   );
 };
-const styles = StyleSheet.create({
-  newsStyle: {
-    flex: 1,
-    flexDirection: "row",
-    margin: 4
-  },
-  icon: {
-    margin: 10
-  },
-  saveView: {
-    margin: 10,
-    marginLeft: 0,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    borderRadius: 20
-  }
-});
 
 export default NewsComponent;

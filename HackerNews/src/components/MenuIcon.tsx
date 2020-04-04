@@ -6,6 +6,7 @@ import {
   Easing,
   Platform
 } from "react-native";
+import Colors from "../Utils/Colors";
 
 const width = new Animated.Value(9);
 const spinValue = new Animated.Value(0);
@@ -85,14 +86,14 @@ export const MenuIcon = ({
 const styles = StyleSheet.create({
   lineOne: {
     borderRadius: 3,
-    backgroundColor: "black",
+    backgroundColor: Colors.icon(),
     height: 3,
     width: 15,
     marginBottom: 5
   },
   lineTwo: {
     borderRadius: 3,
-    backgroundColor: "black",
+    backgroundColor: Colors.icon(),
     height: 3
   }
 });

@@ -13,6 +13,7 @@ import {
 import LottieView from "lottie-react-native";
 import { storeLocal, retrieveLocal } from "../asyncActivities/getSet";
 import firebase from "react-native-firebase";
+import Colors from "../Utils/Colors";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -85,7 +86,6 @@ const InitScreen = ({ navigation }) => {
             style={styles.img}
             source={require("../assets/google-logo.png")}
           />
-          {/* <Text style={styles.btntxt}>Continue with Google</Text> */}
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -121,14 +121,13 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    backgroundColor: "rgba(255,255,255,0)",
     borderRadius: 40,
     marginTop: 30
   },
   img: {
     height: 50,
     width: 50,
-    shadowColor: "black",
+    shadowColor: Colors.shadowColor(),
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2

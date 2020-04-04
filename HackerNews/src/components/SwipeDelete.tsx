@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import UIText from "../UI/Text";
 
 const renderDelete = () => {
   return (
@@ -11,7 +12,7 @@ const renderDelete = () => {
         backgroundColor: "rgba(50,50,50,.3)"
       }}
     >
-      <Text style={styles.save}>Delete</Text>
+      <UIText style={styles.delete}>Delete</UIText>
     </View>
   );
 };
@@ -25,8 +26,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 20
   },
-  save: {
-    color: "white",
+  delete: {
     fontSize: 24,
     paddingHorizontal: 10
   }

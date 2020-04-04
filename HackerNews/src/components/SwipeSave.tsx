@@ -1,6 +1,8 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import React, { useContext } from "react";
+import { StyleSheet, TouchableOpacity, Alert } from "react-native";
 import firebase from "react-native-firebase";
+import Colors from "../Utils/Colors";
+import UIText from "../UI/Text";
 
 const renderSave = ({ userData, item, text, setUpdated }) => {
   const { uid } = userData.user;
@@ -9,7 +11,9 @@ const renderSave = ({ userData, item, text, setUpdated }) => {
   obj[name] = text === "Delete" ? firebase.firestore.FieldValue.delete() : item;
   return (
     <TouchableOpacity
-      style={styles.saveView}
+      style={{
+        ...styles.saveView
+      }}
       onPress={() => {
         const ref = firebase
           .firestore()
@@ -42,7 +46,7 @@ const renderSave = ({ userData, item, text, setUpdated }) => {
           });
       }}
     >
-      <Text style={styles.save}>{text}</Text>
+      <UIText style={styles.save}>{text}</UIText>
     </TouchableOpacity>
   );
 };
@@ -56,11 +60,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 20,
     elevation: 0,
-    shadowColor: "black",
+    shadowColor: Colors.shadowColor(),
+    backgroundColor: Colors.background(0.7),
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.3,
-    shadowRadius: 7,
-    backgroundColor: "rgba(245,255,245,.7)"
+    shadowRadius: 7
   },
   save: {
     fontSize: 24,

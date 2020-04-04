@@ -4,6 +4,9 @@ import HomeScreen from "./src/screens/HomeScreen";
 import InitScreen from "./src/screens/InitScreen";
 import Browser from "./src/screens/Browser";
 import Favs from "./src/screens/Favs";
+import Slider from "./src/screens/SliderTest";
+import { ThemeProvider } from "./src/contexts/Theme";
+import React from "react";
 
 const MainNavigator = createStackNavigator(
   {
@@ -30,7 +33,8 @@ const MainNavigator = createStackNavigator(
       navigationOptions: {
         headerShown: false
       }
-    }
+    },
+    Slider: Slider
   },
   {
     initialRouteName: "Init"
@@ -39,4 +43,12 @@ const MainNavigator = createStackNavigator(
 
 const App = createAppContainer(MainNavigator);
 
-export default App;
+const AppProvider = () => {
+  return (
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  );
+};
+
+export default AppProvider;

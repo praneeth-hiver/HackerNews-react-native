@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import NewsComponent from "../components/NewsComponent";
-import { FlatList, Text, SafeAreaView, View, StyleSheet } from "react-native";
+import { FlatList, SafeAreaView, View, StyleSheet } from "react-native";
 import firebase from "react-native-firebase";
 import { MenuIcon } from "../components/MenuIcon";
+import Colors from "../Utils/Colors";
+import UIText from "../UI/Text";
 
 const Favs = ({ navigation }) => {
   const userData = navigation.state.params.userInfo;
@@ -39,10 +41,10 @@ const Favs = ({ navigation }) => {
   }, [updated]);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "rgba(245,255,245,1)" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background(0.7) }}>
       <View style={styles.header}>
         <MenuIcon onlyBack={true} navigation={navigation} />
-        <Text style={styles.hello}></Text>
+        <UIText style={styles.hello}></UIText>
       </View>
       <FlatList
         data={results}

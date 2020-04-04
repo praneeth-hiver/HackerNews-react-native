@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Animated, Text, StyleSheet, AsyncStorage } from "react-native";
 import { NavigationActions } from "react-navigation";
+import Colors from "../Utils/Colors";
 
 export const renderMenu = ({ w, navigation, ty, userData }) => {
   return (
@@ -10,8 +11,8 @@ export const renderMenu = ({ w, navigation, ty, userData }) => {
           ...styles.menu,
           transform: [
             { rotate: "-90deg" },
-            { translateX: -90 },
-            { translateY: ty }
+            { translateX: -90 }
+            // { translateY: ty }
           ]
         }}
         onPress={() => {
@@ -26,8 +27,8 @@ export const renderMenu = ({ w, navigation, ty, userData }) => {
           ...styles.menu,
           transform: [
             { rotate: "-90deg" },
-            { translateX: -100 * 2 },
-            { translateY: ty }
+            { translateX: -100 * 2 }
+            // { translateY: ty }
           ]
         }}
       >
@@ -39,8 +40,8 @@ export const renderMenu = ({ w, navigation, ty, userData }) => {
           ...styles.menu,
           transform: [
             { rotate: "-90deg" },
-            { translateX: -100 * 3 },
-            { translateY: ty }
+            { translateX: -100 * 3 }
+            // { translateY: ty }
           ]
         }}
         onPress={() => {
@@ -66,6 +67,7 @@ const styles = StyleSheet.create({
   menu: {
     fontWeight: "500",
     fontSize: 20,
-    height: 25
+    height: 25,
+    color: Colors.fontColor()
   }
 });

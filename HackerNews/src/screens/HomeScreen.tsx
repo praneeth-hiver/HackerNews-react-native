@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   StyleSheet,
   View,
   FlatList,
   SafeAreaView,
-  Text,
   Animated
 } from "react-native";
 import SearchBar from "../components/SearchBar";
@@ -13,6 +12,10 @@ import NewsComponent from "../components/NewsComponent";
 import LottieView from "lottie-react-native";
 import { MenuIcon } from "../components/MenuIcon";
 import { renderMenu } from "../components/Menu";
+import Colors from "../Utils/Colors";
+import UIText from "../UI/Text";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { ThemeContext } from "../contexts/Theme";
 
 const HomeScreen = ({ navigation }) => {
   const userData = navigation.state.params.obj;
@@ -22,13 +25,14 @@ const HomeScreen = ({ navigation }) => {
   const bodyOpacity = new Animated.Value(1);
   const menuWidth = new Animated.Value(0);
   const ty = new Animated.Value(-60);
+  const { dark, toggleTheme } = useContext(ThemeContext);
 
   useEffect(() => {
     getInitialResults();
   }, []);
 
   return (
-    <View style={{ ...styles.home, backgroundColor: "rgba(245,255,245,1)" }}>
+    <View style={styles.home}>
       <SafeAreaView>
         <View style={styles.header}>
           <MenuIcon
@@ -38,9 +42,17 @@ const HomeScreen = ({ navigation }) => {
             onlyBack={false}
             navigation={navigation}
           />
-          <Text style={styles.hello}>
+          <UIText style={styles.hello}>
             Hello, {userData.user.displayName.split(" ")[0]} !
-          </Text>
+          </UIText>
+          <TouchableOpacity
+            onPress={() => {
+              toggleTheme(!dark);
+              console.log(dark);
+            }}
+          >
+            <UIText>TOGGLE</UIText>
+          </TouchableOpacity>
         </View>
         <View style={{ ...styles.container }}>
           {renderMenu({ w: menuWidth, navigation, ty, userData })}
@@ -91,7 +103,8 @@ const HomeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   home: {
-    flex: 1
+    flex: 1,
+    backgroundColor: Colors.background(0.7)
   },
   main: {},
   container: {
@@ -101,8 +114,8 @@ const styles = StyleSheet.create({
   hello: {
     // fontFamily: "Montserrat-Light",
     fontSize: 30,
-    padding: 15,
-    backgroundColor: "rgba(245,255,245,1)"
+    padding: 15
+    // backgroundColor: Colors.background()
   },
   lotte: {
     position: "relative",
