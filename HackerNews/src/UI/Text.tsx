@@ -1,17 +1,18 @@
 import { Text, StyleSheet } from "react-native";
 import React, { useContext } from "react";
-import Colors from "../Utils/Colors";
+import { ThemeContext } from "../contexts/Theme";
 
 const UIText = props => {
+  const { Colors } = useContext(ThemeContext);
   return (
-    <Text style={{ ...props.style, ...styles.text }}>{props.children}</Text>
+    <Text style={{ ...props.style, color: Colors.fontColor(0.7) }}>
+      {props.children}
+    </Text>
   );
 };
 
 const styles = StyleSheet.create({
-  text: {
-    color: Colors.fontColor()
-  }
+  text: {}
 });
 
 export default UIText;

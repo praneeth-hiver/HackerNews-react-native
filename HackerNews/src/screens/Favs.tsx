@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import NewsComponent from "../components/NewsComponent";
 import { FlatList, SafeAreaView, View, StyleSheet } from "react-native";
 import firebase from "react-native-firebase";
 import { MenuIcon } from "../components/MenuIcon";
-import Colors from "../Utils/Colors";
+import { ThemeContext } from "../contexts/Theme";
 import UIText from "../UI/Text";
 
 const Favs = ({ navigation }) => {
+  const { Colors } = useContext(ThemeContext);
   const userData = navigation.state.params.userInfo;
   const { uid } = userData.user;
   const [results, setResults] = useState();

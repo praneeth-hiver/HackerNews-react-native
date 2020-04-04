@@ -1,14 +1,16 @@
 import React, { useContext } from "react";
 import { Animated, Text, StyleSheet, AsyncStorage } from "react-native";
 import { NavigationActions } from "react-navigation";
-import Colors from "../Utils/Colors";
+import { ThemeContext } from "../contexts/Theme";
 
 export const renderMenu = ({ w, navigation, ty, userData }) => {
+  const { Colors } = useContext(ThemeContext);
   return (
     <Animated.View style={{ width: w }}>
       <Animated.Text
         style={{
           ...styles.menu,
+          color: Colors.fontColor(0.7),
           transform: [
             { rotate: "-90deg" },
             { translateX: -90 }
@@ -25,6 +27,7 @@ export const renderMenu = ({ w, navigation, ty, userData }) => {
       <Animated.Text
         style={{
           ...styles.menu,
+          color: Colors.fontColor(0.7),
           transform: [
             { rotate: "-90deg" },
             { translateX: -100 * 2 }
@@ -38,6 +41,7 @@ export const renderMenu = ({ w, navigation, ty, userData }) => {
       <Animated.Text
         style={{
           ...styles.menu,
+          color: Colors.fontColor(0.7),
           transform: [
             { rotate: "-90deg" },
             { translateX: -100 * 3 }
@@ -67,7 +71,6 @@ const styles = StyleSheet.create({
   menu: {
     fontWeight: "500",
     fontSize: 20,
-    height: 25,
-    color: Colors.fontColor()
+    height: 25
   }
 });

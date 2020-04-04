@@ -1,41 +1,44 @@
 import React, { useContext } from "react";
 import { View, Text, StyleSheet, Dimensions, Animated } from "react-native";
-import Colors from "../Utils/Colors";
 import UIText from "../UI/Text";
+import { ThemeContext } from "../contexts/Theme";
 
 const { height, width } = Dimensions.get("window");
 
 const Card = props => {
   const { item, stylee } = props;
-  const { size, op, opacity } = stylee;
-  const negD = Animated.add(size, Animated.multiply(-1, size));
+  const { size, fadeMove, opacity } = stylee;
+  // const negD = Animated.add(size, Animated.multiply(-1, size));
+  const { Colors } = useContext(ThemeContext);
   return (
     <Animated.View
       style={{
         ...styles.card,
-        opacity: op
+        opacity: fadeMove,
+        shadowColor: Colors.shadowColor(),
+        backgroundColor: Colors.cardColor()[Math.floor(Math.random() * 6)]
       }}
     >
       <Animated.View
         style={{
           // ...D.getLayout(),
-          // ...D.getTranslateTransform(),
-          // right: D.getLayout().left,
           opacity: opacity,
           position: "absolute",
-          // alignSelf: "center",
-          transform: [{ translateX: negD }, { translateY: negD }],
-          backgroundColor: Colors.background(),
+          alignSelf: "center",
+          transform: [{ translateX: 20 }, { translateY: -50 }],
+          backgroundColor: Colors.background(0.6),
           height: size,
           width: size,
           borderRadius: size,
-          zIndex: 1
+          zIndex: 3
         }}
       ></Animated.View>
 
       <View
         style={{
-          ...styles.score
+          ...styles.score,
+          backgroundColor: Colors.overlay(0.3),
+          shadowColor: Colors.shadowColor()
         }}
       >
         <UIText>{item.points}</UIText>
@@ -58,9 +61,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.3,
-    shadowRadius: 8,
-    shadowColor: Colors.shadowColor(),
-    backgroundColor: Colors.cardColor()[Math.floor(Math.random() * 6)]
+    shadowRadius: 8
   },
   score: {
     shadowOffset: { width: 2, height: 3 },
@@ -71,9 +72,7 @@ const styles = StyleSheet.create({
     width: width / 8,
     borderRadius: 50,
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.background(),
-    shadowColor: Colors.shadowColor()
+    justifyContent: "center"
   },
   title: {
     fontSize: 30,

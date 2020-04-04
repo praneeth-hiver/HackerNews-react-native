@@ -1,4 +1,3 @@
-import React from "react";
 import { Alert, Linking } from "react-native";
 
 const alert = url => {

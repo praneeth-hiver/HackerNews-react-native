@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
 import { StyleSheet, TouchableOpacity, Alert } from "react-native";
 import firebase from "react-native-firebase";
-import Colors from "../Utils/Colors";
 import UIText from "../UI/Text";
 
-const renderSave = ({ userData, item, text, setUpdated }) => {
+const renderSave = ({ userData, item, text, setUpdated, Colors }) => {
   const { uid } = userData.user;
   const name = item.objectID.toString();
   const obj = {};
@@ -12,7 +11,9 @@ const renderSave = ({ userData, item, text, setUpdated }) => {
   return (
     <TouchableOpacity
       style={{
-        ...styles.saveView
+        ...styles.saveView,
+        shadowColor: Colors.shadowColor(),
+        backgroundColor: Colors.overlay(0.7)
       }}
       onPress={() => {
         const ref = firebase
@@ -60,8 +61,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 20,
     elevation: 0,
-    shadowColor: Colors.shadowColor(),
-    backgroundColor: Colors.background(0.7),
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.3,
     shadowRadius: 7

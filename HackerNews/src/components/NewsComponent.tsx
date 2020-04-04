@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
-import {
-  Share,
-  Animated,
-  TouchableWithoutFeedback,
-  Dimensions
-} from "react-native";
+import React, { useEffect, useState, useContext } from "react";
+import { Share, Animated, Dimensions, TouchableOpacity } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { PanGestureHandler, State } from "react-native-gesture-handler";
 import renderSave from "./SwipeSave";
 import Card from "./Card";
+import { ThemeContext } from "../contexts/Theme";
+import alert from "./googleAlert";
 
 const NewsComponent = ({ item, navigation, userData, setUpdated = null }) => {
   const size = new Animated.Value(0);
@@ -30,43 +27,25 @@ const NewsComponent = ({ item, navigation, userData, setUpdated = null }) => {
   }, []);
 
   const bg = e => {
-    Animated.timing(D, {
-      toValue: {
-        x: e.nativeEvent.locationX,
-        y: e.nativeEvent.locationY
-      },
-      duration: 1
+    Animated.timing(size, {
+      toValue: 2000,
+      duration: 500
     }).start(() => {
+      alert(item.url);
+      // navigation.navigate("Browser", { uri: item.url });
       Animated.timing(size, {
-        toValue: 15000,
-        duration: 1000,
-        delay: 10
-      }).start(() => {
-        // navigation.navigate("Browser", { uri: item.url });
-        Animated.timing(opacity, {
-          toValue: 0,
-          duration: 300
-        }).start(() => {
-          Animated.timing(size, {
-            toValue: 0,
-            duration: 1
-          }).start(() => {
-            Animated.timing(opacity, {
-              toValue: 1,
-              duration: 1
-            }).start();
-          });
-        });
-      });
+        toValue: 0,
+        duration: 1
+      }).start();
     });
   };
 
   const text = navigation.state.routeName === "Favs" ? "Delete" : "Save";
-  const D = new Animated.ValueXY({ x: 0, y: 0 });
+  // const D = new Animated.ValueXY({ x: 0, y: 0 });
 
   const tranX = new Animated.Value(0);
   const tranY = new Animated.Value(0);
-  const op = tranY.interpolate({
+  const fadeMove = tranY.interpolate({
     inputRange: [0, 200],
     outputRange: [1, 0]
     // extrapolate: "extend"
@@ -100,6 +79,7 @@ const NewsComponent = ({ item, navigation, userData, setUpdated = null }) => {
     }
   };
 
+  const { Colors } = useContext(ThemeContext);
   return (
     <PanGestureHandler
       onGestureEvent={panCard}
@@ -111,14 +91,14 @@ const NewsComponent = ({ item, navigation, userData, setUpdated = null }) => {
       >
         <Swipeable
           renderLeftActions={() =>
-            renderSave({ userData, item, text, setUpdated })
+            renderSave({ userData, item, text, setUpdated, Colors })
           }
           renderRightActions={null}
         >
           <Animated.View style={{ opacity: fadeIn, alignItems: "center" }}>
-            <TouchableWithoutFeedback
+            <TouchableOpacity
+              activeOpacity={1}
               onPress={e => {
-                console.log(D);
                 bg(e);
               }}
               delayLongPress={500}
@@ -128,9 +108,9 @@ const NewsComponent = ({ item, navigation, userData, setUpdated = null }) => {
             >
               <Card
                 item={item}
-                stylee={{ op: op, opacity: opacity, size: size }}
+                stylee={{ fadeMove: fadeMove, opacity: opacity, size: size }}
               />
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
           </Animated.View>
         </Swipeable>
       </Animated.View>

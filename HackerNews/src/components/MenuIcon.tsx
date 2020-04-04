@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -6,7 +6,7 @@ import {
   Easing,
   Platform
 } from "react-native";
-import Colors from "../Utils/Colors";
+import { ThemeContext } from "../contexts/Theme";
 
 const width = new Animated.Value(9);
 const spinValue = new Animated.Value(0);
@@ -26,6 +26,7 @@ export const MenuIcon = ({
   onlyBack,
   navigation
 }) => {
+  const { Colors } = useContext(ThemeContext);
   const [open, setOpen] = useState(true);
   const animate = () => {
     setOpen(!open);
@@ -70,11 +71,16 @@ export const MenuIcon = ({
       }}
     >
       <Animated.View
-        style={{ ...styles.lineOne, transform: [{ rotate: spin2 }] }}
+        style={{
+          ...styles.lineOne,
+          backgroundColor: Colors.accentColor(),
+          transform: [{ rotate: spin2 }]
+        }}
       ></Animated.View>
       <Animated.View
         style={{
           ...styles.lineTwo,
+          backgroundColor: Colors.accentColor(),
           transform: [{ rotate: spin }],
           width: width
         }}
@@ -86,14 +92,12 @@ export const MenuIcon = ({
 const styles = StyleSheet.create({
   lineOne: {
     borderRadius: 3,
-    backgroundColor: Colors.icon(),
     height: 3,
     width: 15,
     marginBottom: 5
   },
   lineTwo: {
     borderRadius: 3,
-    backgroundColor: Colors.icon(),
     height: 3
   }
 });

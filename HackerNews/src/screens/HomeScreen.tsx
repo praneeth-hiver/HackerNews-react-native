@@ -12,10 +12,11 @@ import NewsComponent from "../components/NewsComponent";
 import LottieView from "lottie-react-native";
 import { MenuIcon } from "../components/MenuIcon";
 import { renderMenu } from "../components/Menu";
-import Colors from "../Utils/Colors";
 import UIText from "../UI/Text";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { ThemeContext } from "../contexts/Theme";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faAdjust } from "@fortawesome/free-solid-svg-icons";
 
 const HomeScreen = ({ navigation }) => {
   const userData = navigation.state.params.obj;
@@ -25,14 +26,15 @@ const HomeScreen = ({ navigation }) => {
   const bodyOpacity = new Animated.Value(1);
   const menuWidth = new Animated.Value(0);
   const ty = new Animated.Value(-60);
-  const { dark, toggleTheme } = useContext(ThemeContext);
+  const { dark, toggleTheme, Colors } = useContext(ThemeContext);
 
   useEffect(() => {
     getInitialResults();
   }, []);
 
+  console.log(Colors);
   return (
-    <View style={styles.home}>
+    <View style={{ ...styles.home, backgroundColor: Colors.background() }}>
       <SafeAreaView>
         <View style={styles.header}>
           <MenuIcon
@@ -46,12 +48,16 @@ const HomeScreen = ({ navigation }) => {
             Hello, {userData.user.displayName.split(" ")[0]} !
           </UIText>
           <TouchableOpacity
+            style={styles.darkMode}
             onPress={() => {
               toggleTheme(!dark);
-              console.log(dark);
             }}
           >
-            <UIText>TOGGLE</UIText>
+            <FontAwesomeIcon
+              icon={faAdjust}
+              style={{ color: Colors.icon(0.7) }}
+              size={25}
+            />
           </TouchableOpacity>
         </View>
         <View style={{ ...styles.container }}>
@@ -63,7 +69,6 @@ const HomeScreen = ({ navigation }) => {
                 setTerm(newText);
                 getResults(term);
               }}
-              // height={Bheight}
             />
 
             {results ? null : (
@@ -91,8 +96,6 @@ const HomeScreen = ({ navigation }) => {
                   />
                 );
               }}
-              // scrollEventThrottle={2}
-              // onScroll={Animated.event([{nativeEvent:{contentOffset:{y.scrollY}}}])}
             />
           </Animated.View>
         </View>
@@ -103,10 +106,12 @@ const HomeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   home: {
-    flex: 1,
-    backgroundColor: Colors.background(0.7)
+    flex: 1
   },
   main: {},
+  darkMode: {
+    marginLeft: 30
+  },
   container: {
     display: "flex",
     flexDirection: "row"

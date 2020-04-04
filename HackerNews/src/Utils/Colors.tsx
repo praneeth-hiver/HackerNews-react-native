@@ -8,6 +8,9 @@ const Colors = {
   fontColor: (a = 1) => {
     return 1 == 1 ? `rgba(0,10,0,${a})` : `rgba(245,255,245,${a})`;
   },
+  overlay: (a = 1) => {
+    return `rgba(245,255,245,${a})`;
+  },
   shadowColor: (a = 1) => {
     return `rgba(0,0,0,${a})`;
   },
