@@ -1,137 +1,82 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  SafeAreaView,
-  Animated
-} from "react-native";
+import { StyleSheet, View, SafeAreaView, Animated } from "react-native";
 import SearchBar from "../components/SearchBar";
 import useNews from "../hooks/useNews";
-import NewsComponent from "../components/NewsComponent";
-import LottieView from "lottie-react-native";
-import { MenuIcon } from "../components/MenuIcon";
 import { renderMenu } from "../components/Menu";
-import UIText from "../UI/Text";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import Header from "../components/Header";
 import { ThemeContext } from "../contexts/Theme";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faAdjust } from "@fortawesome/free-solid-svg-icons";
+import { enableAllPlugins } from "immer";
+import { Loader } from "../components/Loaders/Loaders";
+import { ResultsList } from "../components/ResultsList";
 
 const HomeScreen = ({ navigation }) => {
   const userData = navigation.state.params.obj;
+  const theme = JSON.parse(navigation.state.params.theme);
+
   const [term, setTerm] = useState();
-  const [refr, setRefresh] = useState(false);
   const [results, getResults, getInitialResults] = useNews();
+  const { dark, toggleTheme, Colors } = useContext(ThemeContext);
+
   const bodyOpacity = new Animated.Value(1);
   const menuWidth = new Animated.Value(0);
   const ty = new Animated.Value(-60);
-  const { dark, toggleTheme, Colors } = useContext(ThemeContext);
 
   useEffect(() => {
     getInitialResults();
+    enableAllPlugins();
+    toggleTheme(theme || false);
   }, []);
 
-  return (
-    <View style={{ ...styles.home, backgroundColor: Colors.background() }}>
-      <SafeAreaView>
-        <View style={styles.header}>
-          <MenuIcon
+  const getList = () => {
+    return (
+      <View style={{ ...styles.home, backgroundColor: Colors.background() }}>
+        <SafeAreaView>
+          <Header
+            userData={userData}
             bodyOpacity={bodyOpacity}
-            w={menuWidth}
+            menuWidth={menuWidth}
             ty={ty}
-            onlyBack={false}
-            navigation={navigation}
+            navigation
           />
-          <UIText style={styles.hello}>
-            Hello, {userData.user.displayName.split(" ")[0]} !
-          </UIText>
-          <TouchableOpacity
-            style={styles.darkMode}
-            onPress={() => {
-              toggleTheme(!dark);
-            }}
-          >
-            <FontAwesomeIcon
-              icon={faAdjust}
-              style={{ color: Colors.icon(0.7) }}
-              size={25}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={{ ...styles.container }}>
-          {renderMenu({ w: menuWidth, navigation, ty, userData })}
-          <Animated.View style={{ ...styles.main, opacity: bodyOpacity }}>
-            <SearchBar
-              term={term}
-              onTermChangeGetNews={newText => {
-                setTerm(newText);
-                getResults(term);
-              }}
-            />
-
-            {results ? null : (
-              <LottieView
-                style={styles.lotte}
-                source={require("../assets/content_loader.json")}
-                autoPlay
-                loop
+          <View style={{ ...styles.container }}>
+            {renderMenu({ w: menuWidth, navigation, ty, userData })}
+            <Animated.View style={{ ...styles.main, opacity: bodyOpacity }}>
+              <SearchBar
+                term={term}
+                onTermChangeGetNews={(newText) => {
+                  setTerm(newText);
+                  getResults(term);
+                }}
               />
-            )}
-            <FlatList
-              data={results}
-              keyExtractor={item => item.objectID}
-              refreshing={refr}
-              onRefresh={() => {
-                setRefresh(true);
-                getResults(term).then(setRefresh(false));
-              }}
-              renderItem={({ item }) => {
-                return (
-                  <NewsComponent
-                    item={item}
-                    navigation={navigation}
-                    userData={userData}
-                  />
-                );
-              }}
-            />
-          </Animated.View>
-        </View>
-      </SafeAreaView>
-    </View>
-  );
+              <Loader check={results.length} />
+              <ResultsList
+                results={results}
+                userData={userData}
+                navigation={navigation}
+                getResults={getResults}
+                term={term}
+              />
+            </Animated.View>
+          </View>
+        </SafeAreaView>
+      </View>
+    );
+  };
+
+  return React.useMemo(() => {
+    return getList();
+  }, [results, term, dark]);
 };
 
 const styles = StyleSheet.create({
   home: {
-    flex: 1
+    flex: 1,
   },
   main: {},
-  darkMode: {
-    marginLeft: 30
-  },
   container: {
     display: "flex",
-    flexDirection: "row"
-  },
-  hello: {
-    // fontFamily: "Montserrat-Light",
-    fontSize: 30,
-    padding: 15
-    // backgroundColor: Colors.background()
-  },
-  lotte: {
-    position: "relative",
-    top: "10%",
-    left: "-4%",
-    width: 500
-  },
-  header: {
-    display: "flex",
     flexDirection: "row",
-    alignItems: "center"
-  }
+  },
 });
 
 export default HomeScreen;

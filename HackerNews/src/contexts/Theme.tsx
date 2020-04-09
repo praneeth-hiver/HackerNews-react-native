@@ -28,9 +28,9 @@ const ThemeContext = React.createContext({
       "#C7CFC0",
       "#DDD6CA",
       "#EEDFDA",
-      "#9FBCC2"
-    ]
-  }
+      "#9FBCC2",
+    ],
+  },
 });
 
 const ThemeProvider = (props: any) => {
@@ -58,7 +58,7 @@ const ThemeProvider = (props: any) => {
     cardColor: () =>
       dark
         ? ["#23232B", "#33333B", "#43434B", "#53535B", "#63636B", "#73737B"]
-        : ["#9FBCC2", "#AFC7BF", "#C7CFC0", "#DDD6CA", "#EEDFDA", "#9FBCC2"]
+        : ["#9FBCC2", "#AFC7BF", "#C7CFC0", "#DDD6CA", "#EEDFDA", "#9FBCC2"],
   };
 
   return (

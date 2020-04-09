@@ -16,7 +16,7 @@ const NewsComponent = ({ item, navigation, userData, setUpdated = null }) => {
   useEffect(() => {
     Animated.timing(fadeIn, {
       toValue: 1,
-      duration: 500
+      duration: 500,
     }).start();
 
     // setInterval(() => {
@@ -26,28 +26,27 @@ const NewsComponent = ({ item, navigation, userData, setUpdated = null }) => {
     // }, 500);
   }, []);
 
-  const bg = e => {
+  const bg = (e) => {
     Animated.timing(size, {
       toValue: 2000,
-      duration: 500
+      duration: 500,
     }).start(() => {
       alert(item.url);
       // navigation.navigate("Browser", { uri: item.url });
       Animated.timing(size, {
         toValue: 0,
-        duration: 1
+        duration: 1,
       }).start();
     });
   };
 
   const text = navigation.state.routeName === "Favs" ? "Delete" : "Save";
-  // const D = new Animated.ValueXY({ x: 0, y: 0 });
 
   const tranX = new Animated.Value(0);
   const tranY = new Animated.Value(0);
   const fadeMove = tranY.interpolate({
     inputRange: [0, 200],
-    outputRange: [1, 0]
+    outputRange: [1, 0],
     // extrapolate: "extend"
   });
   const panCard = Animated.event(
@@ -55,31 +54,31 @@ const NewsComponent = ({ item, navigation, userData, setUpdated = null }) => {
       {
         nativeEvent: {
           translationY: tranY,
-          translationX: tranX
-        }
-      }
+          translationX: tranX,
+        },
+      },
     ],
     { useNativeDriver: true }
-
     // { listener: event => console.log(event) }
   );
 
-  const onLeave = e => {
+  const onLeave = (e) => {
     if (e.nativeEvent.oldState == State.ACTIVE) {
       Animated.spring(tranX, {
         toValue: 0,
         speed: 20,
-        useNativeDriver: true
+        useNativeDriver: true,
       }).start();
       Animated.spring(tranY, {
         toValue: 0,
         speed: 20,
-        useNativeDriver: true
+        useNativeDriver: true,
       }).start();
     }
   };
 
   const { Colors } = useContext(ThemeContext);
+
   return (
     <PanGestureHandler
       onGestureEvent={panCard}
@@ -98,7 +97,7 @@ const NewsComponent = ({ item, navigation, userData, setUpdated = null }) => {
           <Animated.View style={{ opacity: fadeIn, alignItems: "center" }}>
             <TouchableOpacity
               activeOpacity={1}
-              onPress={e => {
+              onPress={(e) => {
                 bg(e);
               }}
               delayLongPress={500}

@@ -1,5 +1,4 @@
 import { AsyncStorage } from "react-native";
-import { NavigationActions } from "react-navigation";
 
 export const storeLocal = async (key: string, value) => {
   try {
@@ -9,7 +8,7 @@ export const storeLocal = async (key: string, value) => {
   }
 };
 
-export const retrieveLocal = async key => {
+export const retrieveLocal = async (key) => {
   try {
     return await AsyncStorage.getItem(key);
   } catch (error) {
