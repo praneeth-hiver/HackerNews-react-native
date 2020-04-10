@@ -1,13 +1,19 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Animated } from "react-native";
 import { MenuIcon } from "../components/MenuIcon";
 import UIText from "../UI/Text";
 import { DarkModeToggle } from "../components/DarkModeToggle";
 
 const Header = (props) => {
-  const { userData, bodyOpacity, menuWidth, ty, navigation } = props;
+  const { userData, bodyOpacity, menuWidth, ty, navigation, scrollY } = props;
+  const clamp = Animated.diffClamp(scrollY, 0, 100);
+  const transY = clamp.interpolate({
+    inputRange: [0, 100],
+    outputRange: [100, 0],
+    extrapolate: "clamp",
+  });
   return (
-    <View style={styles.header}>
+    <Animated.View style={[styles.header, { height: transY }]}>
       <MenuIcon
         bodyOpacity={bodyOpacity}
         w={menuWidth}
@@ -19,7 +25,7 @@ const Header = (props) => {
         Hello, {userData.user.displayName.split(" ")[0]} !
       </UIText>
       <DarkModeToggle />
-    </View>
+    </Animated.View>
   );
 };
 const styles = StyleSheet.create({

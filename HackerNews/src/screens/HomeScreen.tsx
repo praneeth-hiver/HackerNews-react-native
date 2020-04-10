@@ -20,6 +20,7 @@ const HomeScreen = ({ navigation }) => {
   const bodyOpacity = new Animated.Value(1);
   const menuWidth = new Animated.Value(0);
   const ty = new Animated.Value(-60);
+  const scrollY = new Animated.Value(0);
 
   useEffect(() => {
     getInitialResults();
@@ -32,6 +33,7 @@ const HomeScreen = ({ navigation }) => {
       <View style={{ ...styles.home, backgroundColor: Colors.background() }}>
         <SafeAreaView>
           <Header
+            scrollY={scrollY}
             userData={userData}
             bodyOpacity={bodyOpacity}
             menuWidth={menuWidth}
@@ -42,6 +44,7 @@ const HomeScreen = ({ navigation }) => {
             {renderMenu({ w: menuWidth, navigation, ty, userData })}
             <Animated.View style={{ ...styles.main, opacity: bodyOpacity }}>
               <SearchBar
+                scrollY={scrollY}
                 term={term}
                 onTermChangeGetNews={(newText) => {
                   setTerm(newText);
@@ -55,6 +58,7 @@ const HomeScreen = ({ navigation }) => {
                 navigation={navigation}
                 getResults={getResults}
                 term={term}
+                scrollY={scrollY}
               />
             </Animated.View>
           </View>

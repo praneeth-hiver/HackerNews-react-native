@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList, Animated } from "react-native";
 import NewsComponent from "./NewsComponent";
 
 export const ResultsList = (props) => {
-  const { results, getResults, userData, navigation, term } = props;
+  const { results, getResults, userData, navigation, term, scrollY } = props;
   const [refr, setRefresh] = useState(false);
   return (
     <FlatList
+      bounces={false}
+      scrollEventThrottle={16}
+      onScroll={Animated.event([
+        { nativeEvent: { contentOffset: { y: scrollY } } },
+      ])}
       data={results}
       keyExtractor={(item) => item.objectID}
       refreshing={refr}

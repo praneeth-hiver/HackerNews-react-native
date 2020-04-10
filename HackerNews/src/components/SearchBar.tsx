@@ -1,19 +1,27 @@
 import React, { useContext } from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import { TextInput, StyleSheet, Animated } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 // import Voice from "@react-native-community/voice";
 import { ThemeContext } from "../contexts/Theme";
 
-const SearchBar = ({ term, onTermChangeGetNews }) => {
+const SearchBar = ({ term, onTermChangeGetNews, scrollY }) => {
   const { Colors } = useContext(ThemeContext);
+  const clamp = Animated.diffClamp(scrollY, 0, 100);
+  const opacity = clamp.interpolate({
+    inputRange: [0, 50, 100],
+    outputRange: [1, 0.1, 0],
+    extrapolate: "clamp",
+  });
   return (
-    <View
+    <Animated.View
       style={{
+        opacity: opacity,
+        // transform: [{ scale: scale }],
         ...styles.background,
         backgroundColor: Colors.overlay(0.7),
         shadowColor: Colors.shadowColor(),
-        height: 35
+        height: 35,
       }}
     >
       <FontAwesomeIcon
@@ -29,7 +37,7 @@ const SearchBar = ({ term, onTermChangeGetNews }) => {
         autoCapitalize="none"
         autoCorrect={true}
       />
-    </View>
+    </Animated.View>
   );
 };
 
@@ -42,18 +50,18 @@ const styles = StyleSheet.create({
     marginTop: 10,
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.3,
-    shadowRadius: 5
+    shadowRadius: 5,
   },
   text: {
     fontSize: 16,
     alignSelf: "center",
     padding: 0,
-    width: "80%"
+    width: "80%",
   },
   icon: {
     alignSelf: "center",
-    margin: 8
-  }
+    margin: 8,
+  },
 });
 
 export default SearchBar;
