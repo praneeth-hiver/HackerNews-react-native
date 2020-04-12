@@ -13,15 +13,15 @@ export const renderMenu = ({ w, navigation, ty, userData }) => {
           color: Colors.fontColor(0.7),
           transform: [
             { rotate: "-90deg" },
-            { translateX: -90 },
+            { translateX: -90 }
             // { translateY: ty }
-          ],
+          ]
         }}
         onPress={() => {
           navigation.navigate("Favs", { userInfo: userData });
         }}
       >
-        Favs
+        Saved
       </Animated.Text>
 
       <Animated.Text
@@ -30,12 +30,15 @@ export const renderMenu = ({ w, navigation, ty, userData }) => {
           color: Colors.fontColor(0.7),
           transform: [
             { rotate: "-90deg" },
-            { translateX: -100 * 2 },
+            { translateX: -105 * 2 }
             // { translateY: ty }
-          ],
+          ]
+        }}
+        onPress={() => {
+          navigation.navigate("Chat", { userInfo: userData });
         }}
       >
-        Account
+        ChatRoom
       </Animated.Text>
 
       <Animated.Text
@@ -44,9 +47,9 @@ export const renderMenu = ({ w, navigation, ty, userData }) => {
           color: Colors.fontColor(0.7),
           transform: [
             { rotate: "-90deg" },
-            { translateX: -100 * 3 },
+            { translateX: -100 * 3 }
             // { translateY: ty }
-          ],
+          ]
         }}
         onPress={() => {
           AsyncStorage.removeItem("userInfo")
@@ -56,7 +59,7 @@ export const renderMenu = ({ w, navigation, ty, userData }) => {
                 0
               );
             })
-            .catch((error) => {
+            .catch(error => {
               console.warn(error);
             });
         }}
@@ -71,6 +74,6 @@ const styles = StyleSheet.create({
   menu: {
     fontWeight: "500",
     fontSize: 20,
-    height: 25,
-  },
+    height: 25
+  }
 });

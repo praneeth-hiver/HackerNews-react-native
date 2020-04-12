@@ -1,71 +1,68 @@
-import React from "react";
-import {
-  StyleSheet,
-  Share,
-  Animated,
-  TouchableWithoutFeedback,
-  Dimensions,
-  View,
-  SafeAreaView
-} from "react-native";
-import { PanGestureHandler, State } from "react-native-gesture-handler";
+import io from "socket.io-client";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { StyleSheet, View, SafeAreaView } from "react-native";
+import { InputBox } from "../screens/Chatroom/InputBox";
+import { MessageList } from "../screens/Chatroom/MessageList";
+import { ThemeContext } from "../contexts/Theme";
+import { MenuIcon } from "../components/MenuIcon";
+import UIText from "../UI/Text";
 
-var { height } = Dimensions.get("screen");
+console.disableYellowBox = true;
+const socket = io("http://127.0.0.1:3000");
 
-const tranY = new Animated.Value(40);
+const Slider = ({ navigation }) => {
+  const { uid } = navigation.state.params.userInfo.user;
+  const [message, setMessage] = useState<any>("");
+  const [messages, setMessages] = useState<any[]>([]);
+  const { Colors } = useContext(ThemeContext);
+  const flatlist = useRef(null);
+  const messs = [];
+  useEffect(() => {
+    socket.on("chat message", rec => {
+      messs.push(rec);
+      setMessages([...messs]);
+    });
+  }, []);
 
-const Slider = () => {
-  const panCard = Animated.event(
-    [
-      {
-        nativeEvent: {
-          y: tranY
-        }
-      }
-    ]
-    // { useNativeDriver: true }
-    // { listener: event => console.log(event.nativeEvent) }
-  );
-  const getSnap = () => {
-    if (tranY._value < height / 4) {
-      return 40;
-    } else if (tranY._value < height / 3) {
-      return height / 2;
-    }
-    return height;
-  };
-
-  const onLeave = e => {
-    if (e.nativeEvent.oldState == State.ACTIVE) {
-      Animated.spring(tranY, {
-        toValue: getSnap(),
-        speed: 20
-        // useNativeDriver: true
-      }).start();
-    }
+  const submitChatMessage = () => {
+    socket.emit("chat message", { message, uid });
+    setMessage("");
+    flatlist.current.scrollToEnd();
   };
   return (
-    <SafeAreaView>
-      <View style={styles.main}>
-        <PanGestureHandler
-          onGestureEvent={panCard}
-          onHandlerStateChange={onLeave}
-          minPointers={1}
-        >
-          <Animated.View
-            style={[styles.slider, { height: tranY }]}
-          ></Animated.View>
-        </PanGestureHandler>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background() }}>
+      <View style={styles.header}>
+        <MenuIcon onlyBack={true} navigation={navigation} />
+        <UIText style={styles.hello} />
+      </View>
+      <View style={styles.constainer}>
+        <MessageList messages={messages} flatlist={flatlist} uid={uid} />
+        <InputBox
+          Colors={Colors}
+          message={message}
+          submitChatMessage={submitChatMessage}
+          setMessage={setMessage}
+        />
       </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  main: {},
-  slider: {
-    backgroundColor: "#555",
-    justifyContent: "center"
+  constainer: {
+    margin: 30,
+    flexDirection: "column"
+  },
+  hello: {
+    // fontFamily: "Montserrat-Light",
+    fontSize: 30,
+    padding: 15
+    // backgroundColor: "rgba(245,255,245,1)"
+  },
+  header: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center"
   }
 });
 

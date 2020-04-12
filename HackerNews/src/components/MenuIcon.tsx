@@ -51,7 +51,7 @@ export const MenuIcon = ({
             duration: 300
           }).start()
         : Animated.spring(w, {
-            toValue: open ? 80 : 0,
+            toValue: open ? 100 : 0,
             overshootClamping: false,
             velocity: 2,
             bounciness: 10,
@@ -76,7 +76,7 @@ export const MenuIcon = ({
           backgroundColor: Colors.accentColor(),
           transform: [{ rotate: spin2 }]
         }}
-      ></Animated.View>
+      />
       <Animated.View
         style={{
           ...styles.lineTwo,
@@ -84,7 +84,7 @@ export const MenuIcon = ({
           transform: [{ rotate: spin }],
           width: width
         }}
-      ></Animated.View>
+      />
     </TouchableOpacity>
   );
 };

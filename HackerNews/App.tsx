@@ -34,7 +34,12 @@ const MainNavigator = createStackNavigator(
         headerShown: false
       }
     },
-    Slider: Slider
+    Chat: {
+      screen: Slider,
+      navigationOptions: {
+        headerShown: false
+      }
+    }
   },
   {
     initialRouteName: "Init"
