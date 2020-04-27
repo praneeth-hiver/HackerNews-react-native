@@ -13,36 +13,36 @@ const MainNavigator = createStackNavigator(
     Home: {
       screen: HomeScreen,
       navigationOptions: {
-        headerShown: false
-      }
+        headerShown: false,
+      },
     },
     Init: {
       screen: InitScreen,
       navigationOptions: {
-        headerShown: false
-      }
+        headerShown: false,
+      },
     },
     Browser: {
       screen: Browser,
       navigationOptions: {
-        headerShown: false
-      }
+        headerShown: false,
+      },
     },
     Favs: {
       screen: Favs,
       navigationOptions: {
-        headerShown: false
-      }
+        headerShown: false,
+      },
     },
     Chat: {
       screen: Slider,
       navigationOptions: {
-        headerShown: false
-      }
-    }
+        headerShown: false,
+      },
+    },
   },
   {
-    initialRouteName: "Init"
+    initialRouteName: "Init",
   }
 );
 

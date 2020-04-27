@@ -21,7 +21,7 @@ const Favs = ({ navigation }) => {
 
     firebase
       .firestore()
-      .runTransaction(async transaction => {
+      .runTransaction(async (transaction) => {
         const doc = await transaction.get(ref);
         if (!doc.exists) {
           setResults["Nothing left"];
@@ -29,7 +29,7 @@ const Favs = ({ navigation }) => {
         const results = Object.values(doc.data());
         setResults(results);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("Transaction failed: ", error);
       });
   };
@@ -42,14 +42,14 @@ const Favs = ({ navigation }) => {
   }, [updated]);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background(0.7) }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background() }}>
       <View style={styles.header}>
         <MenuIcon onlyBack={true} navigation={navigation} />
-        <UIText style={styles.hello}></UIText>
+        <UIText style={styles.hello} />
       </View>
       <FlatList
         data={results}
-        keyExtractor={item => item.objectID}
+        keyExtractor={(item) => item.objectID}
         renderItem={({ item }) => {
           return (
             <NewsComponent
@@ -69,14 +69,14 @@ const styles = StyleSheet.create({
   hello: {
     // fontFamily: "Montserrat-Light",
     fontSize: 30,
-    padding: 15
+    padding: 15,
     // backgroundColor: "rgba(245,255,245,1)"
   },
   header: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });
 
 export default Favs;

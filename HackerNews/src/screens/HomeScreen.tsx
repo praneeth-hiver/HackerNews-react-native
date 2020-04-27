@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, View, SafeAreaView, Animated } from "react-native";
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  Animated,
+  Dimensions,
+} from "react-native";
 import SearchBar from "../components/SearchBar";
 import useNews from "../hooks/useNews";
 import { renderMenu } from "../components/Menu";
@@ -74,12 +80,17 @@ const HomeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   home: {
+    alignItems: "center",
     flex: 1,
   },
-  main: {},
   container: {
-    display: "flex",
+    flex: 1,
     flexDirection: "row",
+    justifyContent: "flex-start",
+  },
+  main: {
+    flex: 1,
+    width: Dimensions.get("screen").width,
   },
 });
 

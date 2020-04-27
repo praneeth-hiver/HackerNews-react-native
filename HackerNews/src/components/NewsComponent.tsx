@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Share, Animated, Dimensions, TouchableOpacity } from "react-native";
+import {
+  Share,
+  Animated,
+  Dimensions,
+  TouchableOpacity,
+  Linking,
+} from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { PanGestureHandler, State } from "react-native-gesture-handler";
 import renderSave from "./SwipeSave";
@@ -10,32 +16,59 @@ import alert from "./googleAlert";
 const NewsComponent = ({ item, navigation, userData, setUpdated = null }) => {
   const size = new Animated.Value(0);
   const opacity = new Animated.Value(1);
+  const placeX = new Animated.Value(0);
+  const placeY = new Animated.Value(0);
   const [fadeIn] = useState(new Animated.Value(0));
   const { height, width } = Dimensions.get("window");
 
   useEffect(() => {
     Animated.timing(fadeIn, {
       toValue: 1,
-      duration: 500,
+      duration: 1000,
     }).start();
 
     // setInterval(() => {
-    //   for (let i = 0; i < 1000; i++) {
+    //   for (let i = 0; i < 500; i++) {
     //     console.log("Blocking JS Thread");
     //   }
     // }, 500);
   }, []);
 
   const bg = (e) => {
+    Animated.timing(placeX, {
+      toValue: e.nativeEvent.locationX,
+      duration: 0,
+    }).start();
+    Animated.timing(placeY, {
+      toValue: e.nativeEvent.locationY,
+      duration: 0,
+    }).start();
+    Animated.timing(opacity, {
+      toValue: 0,
+      duration: 400,
+    }).start();
     Animated.timing(size, {
-      toValue: 2000,
-      duration: 500,
+      toValue: 1000,
+      duration: 400,
     }).start(() => {
-      alert(item.url);
+      // Linking.openURL(item.url);
+      // alert(item.url);
       // navigation.navigate("Browser", { uri: item.url });
       Animated.timing(size, {
         toValue: 0,
         duration: 1,
+      }).start();
+      Animated.timing(opacity, {
+        toValue: 1,
+        duration: 1,
+      }).start();
+      Animated.timing(placeX, {
+        toValue: 0,
+        duration: 10,
+      }).start();
+      Animated.timing(placeY, {
+        toValue: 0,
+        duration: 10,
       }).start();
     });
   };
@@ -96,6 +129,7 @@ const NewsComponent = ({ item, navigation, userData, setUpdated = null }) => {
         >
           <Animated.View style={{ opacity: fadeIn, alignItems: "center" }}>
             <TouchableOpacity
+              style={{ opacity: 1 }}
               activeOpacity={1}
               onPress={(e) => {
                 bg(e);
@@ -107,7 +141,12 @@ const NewsComponent = ({ item, navigation, userData, setUpdated = null }) => {
             >
               <Card
                 item={item}
-                stylee={{ fadeMove: fadeMove, opacity: opacity, size: size }}
+                stylee={{
+                  opacity: opacity,
+                  size: size,
+                  placeX: placeX,
+                  placeY: placeY,
+                }}
               />
             </TouchableOpacity>
           </Animated.View>
